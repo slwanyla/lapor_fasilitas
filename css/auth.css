@@ -1,0 +1,126 @@
+/* Google Font untuk judul */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
+
+/* RESET & FONT */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: #1e2ad1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        width: 360px; /* >>> Gedein FORM tanpa ngaruh ke field */
+        background: white;
+        padding: 25px 25px 35px 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .auth-title {
+        font-family: "Times New Roman", Georgia, serif; /* serif seperti gambar */
+        font-size: 25px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        
+    }
+
+
+    /* Garis abu-abu */
+    .line {
+        width: 100%;
+        height: 1px;
+        background: #dcdcdc;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+        width: 100%;
+        max-width: 300px; 
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    input,select {
+        width: 100%;       
+        padding: 10px;
+        border: 1px solid #aaa;
+        border-radius: 8px;
+        box-sizing: border-box; 
+    }
+
+    /* khusus select status */
+    select {
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg fill="%23666" height="24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px;
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-wrapper i {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+
+    button {
+        width: 200px;
+        padding: 10px;
+        background: #ffd64d;
+        border: none;
+        border-radius: 20px;
+        font-size: 15px;
+        cursor: pointer;
+        font-weight: bold;
+        display: block;
+        margin: auto;
+        margin-top: 10px;
+    }
+
+    button:hover {
+        background: #f8c930;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+
+    .login-link a {
+        color: #f8c930;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    /* Prodi hidden default */
+    #prodi-group {
+        display: none;
+    }
