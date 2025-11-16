@@ -120,6 +120,22 @@
         font-weight: bold;
     }
 
+    .forgot-text {
+        text-align: left;
+        margin-top: 5px;
+    }
+
+    .forgot-text a {
+        font-size: 12px;
+        color: #ffd64d;      /* <<< warna kuning */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .forgot-text a:hover {
+        text-decoration: underline;
+    }
+
     /* Prodi hidden default */
     #prodi-group {
         display: none;
