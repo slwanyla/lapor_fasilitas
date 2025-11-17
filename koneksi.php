@@ -1,11 +1,12 @@
 <?php
-$host = "localhost:3306";
+$host = "localhost";
 $user = "root";
 $pass = "";
-$db = "lapor_fasilitas";
+$dbname = "laporan_fasilitas";
 
-$conn = mysqli_connect($host, $user, $pass, $db);
-
-if (!$conn) {
-    echo 'ERROR : '  . mysqli_connect_error($conn);
+try {
+    $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Koneksi database gagal: " . $e->getMessage());
 }
