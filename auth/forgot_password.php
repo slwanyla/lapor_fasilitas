@@ -11,32 +11,35 @@
 
 <body>
 
-<div class="container">
-    <h2 class="auth-title">Forgot Password</h2>
-    <div class="line"></div>
+    <form method="POST" action="../controllers/authcontroller.php">
+        <input type="hidden" name="action" value="forgot_password">
 
-    <p  class="form-group" style="margin-bottom: 40px;"> enter your email address and we will send you
-    a link to reset yout password</p>
+    <div class="container">
+        <h2 class="auth-title">Forgot Password</h2>
+        <div class="line"></div>
 
-    <div class="form-group">
-        <label>Email</label>
-        <input type="email">
+        <p  class="form-group" style="margin-bottom: 40px;"> enter your email address and we will send you
+        a link to reset yout password</p>
 
-        <div class="forgot-text" style="font-size: 12px; margin-top: 5px;">
-            Link expired. <a href="forgot_password.php" style="font-size: 12px;">Send again</a>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email">
+
+            <div class="forgot-text" style="font-size: 12px; margin-top: 5px;">
+                Link expired. <a href="forgot_password.php" style="font-size: 12px;">Send again</a>
+            </div>
+
         </div>
-
-    </div>
 
     
 
 
-    <button style="margin-top: 50px;">Submit</button>
+        <button style="margin-top: 50px;">Submit</button>
 
-    <div class="login-link">
-        <a href="login.php">Kembali halaman signin</a>
+        <div class="login-link">
+            <a href="login.php">Kembali halaman signin</a>
+        </div>
     </div>
-</div>
 
 </body>
 </html>
