@@ -49,6 +49,7 @@
 <body>
 
     <?php include '../alert.php'; showAlert(); ?>
+    
     <form action="../controllers/authcontroller.php" method="POST">
     <input type="hidden" name="action" value="login">
     <div class="container">

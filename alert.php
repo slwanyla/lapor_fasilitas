@@ -9,15 +9,15 @@ function showAlert() {
     ';
 
 
-    if (!isset($_GET['status']) && !isset($_GET['error'])) return;
+    if (!isset($_GET['success']) && !isset($_GET['error'])) return;
 
     $type = "";
     $title = "";
     $message = "";
 
     // SUCCESS
-    if (isset($_GET['status'])) {
-        switch ($_GET['status']) {
+    if (isset($_GET['success'])) {
+        switch ($_GET['success']) {
             case 'registered':
                 $type = 'success';
                 $title = 'Berhasil membuat akun,';
@@ -29,6 +29,13 @@ function showAlert() {
                 $title = 'Berhasil diperbarui';
                 $message = 'Data berhasil disimpan';
                 break;
+
+            case 'email_sent':
+                $type = 'success';
+                $title = 'Berhasil dikirim';
+                $message = 'Link berhasil melalui email';
+                break;
+
         }
     }
 

@@ -1,11 +1,12 @@
 <?php
+
 require_once "../koneksi.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../phpmailer/src/Exception.php';
-require '../phpmailer/src/PHPMailer.php';
-require '../phpmailer/src/SMTP.php';
+require '../phpmailer/phpmailer/src/Exception.php';
+require '../phpmailer/phpmailer/src/PHPMailer.php';
+require '../phpmailer/phpmailer/src/SMTP.php';
 
 
 class AuthController {
@@ -57,7 +58,7 @@ class AuthController {
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$nama, $email, $password, $role, $nim, $nidn, $nip, $jurusan]);
 
-        header("Location: ../auth/login.php?status=registered");
+        header("Location: ../auth/login.php?success=registered");
         exit;
     }
 
@@ -105,6 +106,7 @@ class AuthController {
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
+       
         if (!$user) {
             header("Location: ../auth/forgot_password.php?error=email_not_found");
             exit;
@@ -115,13 +117,13 @@ class AuthController {
         $expired = date("Y-m-d H:i:s", strtotime("+1 hour"));
 
         // Insert / Update token
-        $sql = "INSERT INTO password_reset_tokens (id_user, token, expired_at)
+        $sql = "INSERT INTO password_reset (id_user, token, expired_at)
                 VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$user['id'], $token, $expired]);
 
         // Kirim email pakai PHPMailer
-        $resetLink = "http://localhost/auth/reset_password.php?token=".$token;
+        $resetLink = "http://localhost/lapor_fasilitas/auth/reset_password.php?token=".$token;
 
         $mail = new PHPMailer(true);
 
@@ -130,13 +132,13 @@ class AuthController {
             $mail->isSMTP();
             $mail->Host = "smtp.gmail.com";
             $mail->SMTPAuth = true;
-            $mail->Username = "emailkamu@gmail.com";
-            $mail->Password = "app-password-gmail";
+            $mail->Username = "laporaja77@gmail.com";
+            $mail->Password = "mnyv cnpn pxdj trqx";
             $mail->SMTPSecure = "ssl";
             $mail->Port = 465;
 
             // Penerima
-            $mail->setFrom("emailkamu@gmail.com", "Reset Password System");
+            $mail->setFrom("laporaja77@gmail.com", "Reset Password System");
             $mail->addAddress($email);
 
             // Isi email
@@ -154,13 +156,13 @@ class AuthController {
             exit;
         }
 
-        header("Location: ../auth/login.php?status=reset_email_sent");
+       header("Location: ../auth/forgot_password.php?success=email_sent");
         exit;
     }
 
     public function validateResetToken($token)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM password_reset_tokens WHERE token = ? LIMIT 1");
+        $stmt = $this->conn->prepare("SELECT * FROM password_reset WHERE token = ? LIMIT 1");
         $stmt->execute([$token]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -188,7 +190,7 @@ class AuthController {
         }
 
         // Validasi token
-        $stmt = $this->conn->prepare("SELECT * FROM password_reset_tokens WHERE token = ? LIMIT 1");
+        $stmt = $this->conn->prepare("SELECT * FROM password_reset WHERE token = ? LIMIT 1");
         $stmt->execute([$token]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -203,10 +205,10 @@ class AuthController {
         $u->execute([$hashed, $data['id_user']]);
 
         // Hapus token setelah dipakai
-        $del = $this->conn->prepare("DELETE FROM password_reset_tokens WHERE token = ?");
+        $del = $this->conn->prepare("DELETE FROM password_reset WHERE token = ?");
         $del->execute([$token]);
 
-        header("Location: ../auth/login.php?status=password_reset_success");
+        header("Location: ../auth/login.php?success=password_reset_success");
         exit;
     }
 
@@ -220,12 +222,18 @@ $auth = new AuthController($db);
 
 if (isset($_POST['action'])) {
 
+    
+
     if ($_POST['action'] == "register") {
         $auth->register();
     }
 
     if ($_POST['action'] == "login") {
         $auth->login();
+    }
+
+    if ($_POST['action'] == "forgot_password") {
+        $auth->forgotPassword();
     }
 
     if ($_POST['action'] == "reset_password") {
