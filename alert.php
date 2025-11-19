@@ -35,7 +35,12 @@ function showAlert() {
                 $title = 'Berhasil dikirim';
                 $message = 'Link berhasil melalui email';
                 break;
-
+            
+            case 'password_reset_success':
+                $type = 'success';
+                $title = 'Berhasil diubah';
+                $message = 'Password berhasil diubah';
+                break;
         }
     }
 
@@ -43,6 +48,10 @@ function showAlert() {
     if (isset($_GET['error'])) {
 
         if ($_GET['error'] == 'wrong_password') {
+            return; 
+        }
+
+         if ($_GET['error'] == 'pw_not_match') {
             return; 
         }
 

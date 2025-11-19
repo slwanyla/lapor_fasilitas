@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,7 +70,7 @@
     <div class="form-group password-wrapper">
         <label>Password</label>
         <input type="password" id="password" name="password" required>
-        <i onclick="togglePassword()"></i>
+        <i class="fi fi-br-eye" onclick="togglePassword(this)"></i>
 
          <div class="forgot-text">
             <a href="forgot_password.php">Forgot Password?</a>
@@ -88,20 +85,29 @@
     </div>
 </div>
 
-<script>
-function togglePassword() {
-    const pass = document.getElementById("password");
-    pass.type = (pass.type === "password") ? "text" : "password";
-}
+    <script>
+    function togglePassword(icon) {
+        const field = document.getElementById("password");
 
-</script>
- <script>
-    function closeMiniAlert() {
-        let box = document.getElementById("miniAlert");
-        if (box) {
-            box.style.display = "none";
+        if (field.type === "password") {
+            field.type = "text";
+            icon.classList.remove("fi-br-eye");
+            icon.classList.add("fi-br-eye-crossed");
+        } else {
+            field.type = "password";
+            icon.classList.remove("fi-br-eye-crossed");
+            icon.classList.add("fi-br-eye");
         }
     }
+    </script>
+
+    <script>
+        function closeMiniAlert() {
+            let box = document.getElementById("miniAlert");
+            if (box) {
+                box.style.display = "none";
+            }
+        }
     </script>
 
 </body>

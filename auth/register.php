@@ -7,43 +7,59 @@
 <link rel="stylesheet" href="../css/auth.css">
 
 <style>
-.mini-alert {
-    background: #ff4d4d;          /* merah */
-    color: white;
-    padding: 10px 14px;
-    border-radius: 6px;
-    font-size: 14px;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-left: 5px solid #d80000;
-    animation: fadeIn 0.3s ease;
-    position: relative;
-    z-index: 10;
-}
+    .mini-alert {
+        background: #ff4d4d;          /* merah */
+        color: white;
+        padding: 10px 14px;
+        border-radius: 6px;
+        font-size: 14px;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 5px solid #d80000;
+        animation: fadeIn 0.3s ease;
+        position: relative;
+        z-index: 10;
+    }
 
-.close-mini {
-    cursor: pointer;
-    font-size: 18px;
-    margin-left: 12px;
-    opacity: 0.8;
-}
+    .close-mini {
+        cursor: pointer;
+        font-size: 18px;
+        margin-left: 12px;
+        opacity: 0.8;
+    }
 
-.close-mini:hover {
-    opacity: 1;
-}
+    .close-mini:hover {
+        opacity: 1;
+    }
 
-/* animasi */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+    /* animasi */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-wrapper i {
+        position: absolute;
+        right: 12px;
+        top: 70%;                 /* dari 50% → 60% biar lebih turun */
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 18px;
+        color: black;
+    }
+
 </style>
 
 </head>
 
 <body>
+    <?php include '../alert.php'; showAlert(); ?>
     
     <form action="../controllers/authcontroller.php" method="POST">
     <input type="hidden" name="action" value="register">
@@ -99,7 +115,7 @@
     <div class="form-group password-wrapper">
         <label>Password</label>
         <input type="password" name="password" id="password" placeholder="Minimal 6 karakter" required>
-        <i onclick="togglePassword()"></i>
+        <i class="fi fi-br-eye" onclick="togglePassword(this)"></i>
         
     </div>
 
@@ -112,16 +128,25 @@
 </form>
 
     <script>
-    function togglePassword() {
-        const pass = document.getElementById("password");
-        pass.type = (pass.type === "password") ? "text" : "password";
-    }
+        function togglePassword(icon) {
+            const field = document.getElementById("password");
 
-    // Munculkan PRODI jika role = mahasiswa
-    document.getElementById("statusSelect").addEventListener("change", function () {
-        const prodi = document.getElementById("prodi-group");
-        prodi.style.display = (this.value === "mahasiswa") ? "block" : "none";
-    });
+            if (field.type === "password") {
+                field.type = "text";
+                icon.classList.remove("fi-br-eye");
+                icon.classList.add("fi-br-eye-crossed");
+            } else {
+                field.type = "password";
+                icon.classList.remove("fi-br-eye-crossed");
+                icon.classList.add("fi-br-eye");
+            }
+        }
+
+        // Munculkan PRODI jika role = mahasiswa
+        document.getElementById("statusSelect").addEventListener("change", function () {
+            const prodi = document.getElementById("prodi-group");
+            prodi.style.display = (this.value === "mahasiswa") ? "block" : "none";
+        });
 
     </script>
     <script>

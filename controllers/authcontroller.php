@@ -182,6 +182,12 @@ class AuthController {
     {
         $token = $_POST['token'];
         $password = $_POST['password'];
+        $confirm = $_POST['confirm_password'];
+
+        if ($password !== $confirm) {
+            header("Location: ../auth/reset_password.php?token=$token&error=pw_not_match");
+            exit;
+        }
 
         // Minimal 6 karakter
         if (strlen($password) < 6) {
