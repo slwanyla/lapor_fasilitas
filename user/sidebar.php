@@ -1,13 +1,37 @@
-<div class="sidebar">
-    <h2 class="logo">LaporAja</h2>
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+        <div class="logo">LaporAja</div>
+    </div>
 
-    <ul>
-        <li><a href="dashboard.php">Dashboard</a></li>
-        <li><a href="buat_pengaduan.php">Buat Pengaduan</a></li>
-        <li><a href="riwayat.php">Riwayat Laporan</a></li>
-    </ul>
+    <div class="sidebar-menu">
+        <ul class="menu">
+            <li class="active">
+                <a href="#">
+                    <i class="fi fi-rr-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
-    <div class="logout">
-        <a href="#">Logout</a>
+            <li>
+                <a href="#">
+                    <i class="fi fi-br-file-edit"></i>
+                    <span>Buat Pengaduan</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fi fi-rr-folder-open"></i>
+                    <span>Riwayat Laporan</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="logout">
+            <a href="#">
+                <i class="fi fi-rr-exit"></i>
+                <span>Logout</span>
+            </a>
+        </div>
     </div>
 </div>

@@ -1,7 +1,263 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f5f5f5;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 230px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white; /* sisanya putih */
+    box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    display: flex;
+    flex-direction: column;
+    transition: width .3s ease;
+    overflow: hidden; 
+}
+
+
+
+
+/* 🔵 BAGIAN ATAS */
+.sidebar-top {
+    background: #3335CA;      /* warna header */
+    padding: 15px 20px;
+    color: white;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-top: 30px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 18px;
+    color: white;
+}
+
+
+/* ⚪ MENU BAWAH */
+.sidebar-menu {
+    flex: 1;
+    padding: 20px;
+    background: white;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    margin-bottom: 20px;
+}
+
+.menu li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;             /* 🔥 jarak icon & teks */
+    padding: 10px 12px;    /* area klik nyaman */
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    border-radius: 8px;    /* biar kayak gambar */
+    transition: .2s ease;
+}
+
+
+.menu li.active a {
+    background: #3335CA;
+    color: white;
+    font-weight: bold;
+}
+
+
+.menu li a:hover {
+    background: #3335CA;
+    color: white;
+}
+
+
+/* LOGOUT */
+.logout {
+    margin-top: 30px;
+}
+
+.logout a {
+    color: red;
+    text-decoration: none;
+}
+
+/* ==== SIDEBAR TOGGLE ==== */
+
+.sidebar {
+    transition: all .3s ease;
+}
+
+/* tutup */
+.sidebar.closed {
+    width: 0;
+    pointer-events: none;
+}
+
+.sidebar.closed ~ .header {
+    left: 0;
+    width: 100%;
+}
+
+.sidebar.closed ~ .main-content {
+    margin-left: 0;
+}
+
+
+/* HEADER & CONTENT ikut geser */
+.header,
+.content,
 .main-content {
-    margin-left: 250px; 
+    transition: all .3s ease;
+}
+
+/* HEADER */
+.header {
+    position: fixed;
+    top: 0;
+    left: 230px; /* mengikuti sidebar */
+    width: calc(100% - 230px);
+    height: 80px;
+    background: #3335CA;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;   /* 🟢 pisahkan kiri - tengah - kanan */
+    padding: 0 25px;
+    z-index: 999;
+    transition: all .3s ease;
+}
+
+.left-area {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* jarak tombol dan profil */
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: 30px;   /* 🔥 geser ke kiri */
+}
+
+
+/* USER PROFILE AREA */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-profile img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
+
+.user-text strong {
+    font-size: 14px;
+}
+
+.user-text small {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* TITLE */
+.header-title {
+    flex: 1;                /* bikin dia otomatis di tengah */
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* RIGHT AREA (BELL + SEARCH) */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+}
+/* BELL ICON */
+.notif-icon {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* SEARCH BOX */
+.search-box {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 25px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    padding: 8px 10px;
+    width: 170px;          /* 🟢 Dibuat lebih besar */
+    font-size: 14px;
+}
+
+.search-box button {
+    border: none;
+    background: transparent;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+/* CONTENT */
+.content {
+    margin-left: 230px;
+    padding: 20px;
+    margin-top: 100px; /* dorong konten biar gak ketiban header */
+}
+
+
+.stats-box {
+    display: flex;
+    gap: 20px;
+}
+
+.stat {
+    width: 180px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,.1);
+}
+
+.stat .count {
+    font-size: 30px;
+    color: #3335CA;
+    font-weight: bold;
+}
+
+.main-content {
+    margin-left: 230px;
+    margin-top: 100px;
     padding: 30px;
 }
+
 
 .section-title {
     font-size: 22px;
@@ -48,23 +304,105 @@
 .recent-item {
     display: flex;
     justify-content: space-between;
-    padding: 16px 5px;
-    border-bottom: 1px solid #eee;
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
 }
 
-.recent-item:last-child {
-    border-bottom: none;
+.recent-left {
+    display: flex;
+    gap: 12px;
 }
 
-.recent-title {
-    font-size: 16px;
-    font-weight: 600;
+.recent-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.recent-thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.recent-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
 }
 
 .recent-date {
-    font-size: 13px;
+    font-size: 12px;
     color: #777;
 }
+
+
+.recent-desc {
+    font-size: 13px;
+    color: #666;
+    margin: 4px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+.recent-location {
+    font-size: 12px;
+    color: #555;
+}
+
+/* Status + dropdown */
+.status-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 18px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-width: 80px;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px;
+    font-size: 13px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+    background: #f1f1f1;
+}
+
+/* Show dropdown on hover (demo) */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
 
 .badge {
     padding: 6px 10px;
@@ -88,6 +426,39 @@
     color: white;
 }
 
+.dropdown-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background: white;
+    margin-top: 35px;
+    right: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.recent-right:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 8px;
+    color: #333;
+    text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+    background: #eee;
+}
+
 .detail-btn {
     margin-left: 12px;
     padding: 6px 10px;
@@ -97,6 +468,79 @@
     text-decoration: none;
     font-size: 13px;
 }
+
+/* Wrapper */
+.filter-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tombol filter */
+.filter-btn {
+    background: #fff;
+    border: 2px solid #000;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+/* Hover */
+.filter-btn:hover {
+    background: #000;
+    color: #fff;
+}
+
+
+/* Dropdown icon khusus */
+.filter-btn .dropdown-icon {
+    position: relative;
+    top: 4px;   /* geser ke bawah */
+    
+}
+
+
+
+/* Menu dropdown */
+.filter-menu {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    width: 150px;
+    background: #fff;
+    border-top: 1px solid #dcdcdc;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    padding: 6px 0;
+}
+
+/* Item menu */
+.filter-menu a {
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #000;
+    display: block;
+    font-weight: 500;
+}
+
+.filter-menu a:hover {
+    background: #eee;
+}
+
+/* Garis */
+.filter-menu hr {
+    margin: 6px 0;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
 
 .no-data {
     padding: 18px;
