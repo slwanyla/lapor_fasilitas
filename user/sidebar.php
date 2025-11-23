@@ -6,14 +6,14 @@
     <div class="sidebar-menu">
         <ul class="menu">
             <li class="active">
-                <a href="#">
+                <a href="user_dashboard.php">
                     <i class="fi fi-rr-home"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
             <li>
-                <a href="#">
+                <a href="lapor.php">
                     <i class="fi fi-br-file-edit"></i>
                     <span>Buat Pengaduan</span>
                 </a>
