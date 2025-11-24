@@ -1,6 +1,9 @@
 <?php include 'sidebar.php'; ?>
 <?php include 'header.php'; ?>
+<?php include 'edit.php'; ?>
 <?php include '../alert.php'; showAlert(); ?>
+
+
 
 
 <link rel="stylesheet" href="../assets/css/style.css">
@@ -81,9 +84,11 @@
                     <span class="badge status-new">New</span>
 
                     <div class="dropdown">
-                        <button class="dropdown-btn">▼</button>
+                       <button class="dropdown-btn">
+                            <i class="fi fi-rr-menu-dots-vertical"></i>
+                        </button>
                         <div class="dropdown-menu">
-                            <a href="#">Edit</a>
+                            <a href="#" onclick="openEdit()">Edit</a>
                             <a href="#">Hapus</a>
                         </div>
                     </div>
@@ -190,5 +195,31 @@ document.querySelector('.filter-btn').addEventListener('click', function () {
     const menu = document.querySelector('.filter-menu');
     menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
 });
+
+document.querySelectorAll('.dropdown').forEach(drop => {
+    const btn = drop.querySelector('.dropdown-btn');
+    const menu = drop.querySelector('.dropdown-menu');
+
+    btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+
+        // tutup dropdown lain
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m !== menu) m.style.display = 'none';
+        });
+
+        // toggle menu ini
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+
+});
+
+// Tutup kalau klik di luar
+document.addEventListener('click', function () {
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.style.display = 'none';
+    });
+});
+
 </script>
 

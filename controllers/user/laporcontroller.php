@@ -1,6 +1,6 @@
 <?php
 
-require_once "../koneksi.php";
+require_once "../../koneksi.php";
 
 class ReportController {
 
@@ -11,9 +11,7 @@ class ReportController {
         $this->conn = $db; // PDO
     }
 
-    /* ==========================
-         CREATE REPORT
-    ========================== */
+    //CREATE REPORT
     public function create()
     {
         session_start();
@@ -28,9 +26,7 @@ class ReportController {
         $lokasi = $_POST['lokasi'];
         $deskripsi = $_POST['deskripsi'];
 
-        /* ==========================
-            UPLOAD FOTO
-        ========================== */
+        //UPLOAD FOTO
 
         $fotoName = null;
 
@@ -49,7 +45,7 @@ class ReportController {
             // validasi hanya foto
             $allowed = ['jpg', 'jpeg', 'png'];
             if (!in_array($ext, $allowed)) {
-                header("Location: ../user/create_report.php?error=invalid_file");
+                header("Location: ../../user/create_report.php?error=invalid_file");
                 exit;
             }
 
@@ -59,27 +55,24 @@ class ReportController {
             move_uploaded_file($tmpName, $folder . $fotoName);
         }
 
-        /* ==========================
-            INSERT DATABASE
-        ========================== */
-        $sql = "INSERT INTO lapor (id_user, judul_laporan, deskripsi, lokasi, foto)
+        //INSERT DATABASE
+
+        $sql = "INSERT INTO laporan (id_user, judul_laporan, deskripsi, lokasi, foto)
                 VALUES (?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
 
         if ($stmt->execute([$id_user, $judul, $deskripsi, $lokasi, $fotoName])) {
-            header("Location: ../user/create_report.php?success=report_created");
+            header("Location: ../../user/lapor.php?success=report_created");
         } else {
-            header("Location: ../user/create_report.php?error=insert_failed");
+           header("Location: ../../user/lapor.php?error=insert_failed");
+
         }
 
         exit;
     }
 }
 
-/* ==========================
-      ROUTER SEDERHANA
-=========================== */
 
 $report = new ReportController($db);
 

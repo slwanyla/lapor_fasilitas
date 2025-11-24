@@ -2,70 +2,77 @@
 <?php include 'header.php'; ?>
 <?php include '../alert.php'; showAlert(); ?>
 
-<link rel="stylesheet" href="../assets/css/style.css">
 
-        <div class="report-container">
-            <div class="white-box">
+<div class="report-container">
+    <div class="white-box">
 
-                <h3>Create Report</h3>
+        <h3>Create Report</h3>
 
-                <!-- Upload Area -->
-                <div id="uploadArea" class="upload-area">
-                    <div class="upload-icon"><i class="fi fi-rr-cloud-upload"></i></div>
-                    <p>choose a media or drag & drop it here</p>
-                    <input type="file" id="fileInput"  accept=".jpg, .jpeg, .png" hidden>
-                    <button class="browse-btn" onclick="document.getElementById('fileInput').click()">
-                        browse file
-                    </button>
-                </div>
+        <!-- FORM START -->
+        <form action="../controllers/user/laporcontroller.php" method="POST" enctype="multipart/form-data">
 
-                <!-- Progress Area (hidden default) -->
-                <div id="progressArea" class="progress-area hidden">
-                    <div class="progress-header">
-                        <span id="fileName">filename</span>
-                        <i class="fi fi-tr-cross-small close-progress" onclick="resetUpload()"></i>
-                    </div>
+            <input type="hidden" name="action" value="create_report">
 
-                    <div class="progress-bar">
-                        <div id="progressLine"></div>
-                    </div>
-                </div>
+            <!-- File input HARUS di dalam form -->
+            <input type="file" name="foto" id="fileInput" accept=".jpg, .jpeg, .png" hidden>
 
-                <!-- Preview Area (hidden default) -->
-                <div id="previewArea" class="preview-area hidden">
-    
-                    <i class="fi fi-sr-circle-xmark close-preview" onclick="resetUpload()"></i>
+            <!-- Upload Area -->
+            <div id="uploadArea" class="upload-area">
+                <div class="upload-icon"><i class="fi fi-rr-cloud-upload"></i></div>
+                <p>choose a media or drag & drop it here</p>
 
-                    <img id="previewImg">
-
-                    <div class="preview-info">
-                        <span id="uploadedFileName"></span>
-                    </div>
-                </div>
-
-                <br>
-
-                <!-- Form Input -->
-                <form action="../controllers/ReportController.php" method="POST" enctype="multipart/form-data">
-
-                    <input type="hidden" name="action" value="create_report">
-
-                    <div class="row">
-                        <input type="text" name="judul_laporan" placeholder="Judul" required>
-                        <input type="text" name="lokasi" placeholder="Lokasi" required>
-                    </div>
-
-                    <textarea name="deskripsi" placeholder="Deskripsi" required></textarea>
-
-                    <div class="btn-row">
-                        <button type="submit" class="upload-btn">upload</button>
-                        <button type="button" class="close-btn">close</button>
-                    </div>
-                </form>
-
+                <button type="button" class="browse-btn"
+                    onclick="document.getElementById('fileInput').click()">
+                    browse file
+                </button>
             </div>
 
+            <!-- Progress Area -->
+            <div id="progressArea" class="progress-area hidden">
+                <div class="progress-header">
+                    <span id="fileName">filename</span>
+                    <i class="fi fi-tr-cross-small close-progress" onclick="resetUpload()"></i>
+                </div>
 
+                <div class="progress-bar">
+                    <div id="progressLine"></div>
+                </div>
+            </div>
+
+            <!-- Preview Area -->
+            <div id="previewArea" class="preview-area hidden">
+                <i class="fi fi-sr-circle-xmark close-preview" onclick="resetUpload()"></i>
+
+                <img id="previewImg">
+
+                <div class="preview-info">
+                    <span id="uploadedFileName"></span>
+                </div>
+            </div>
+
+            <br>
+
+            <!-- Form Input -->
+            <div class="row">
+                <input type="text" name="judul_laporan" placeholder="Judul" required>
+                <input type="text" name="lokasi" placeholder="Lokasi" required>
+            </div>
+
+            <textarea name="deskripsi" placeholder="Deskripsi" required></textarea>
+
+            <div class="btn-row">
+                <button type="submit" class="upload-btn">upload</button>
+                <button type="button" class="close-btn">close</button>
+            </div>
+
+        </form>
+        <!-- FORM END -->
+
+    </div>
+</div>
+
+
+<!-- JAVASCRIPT -->
 <script>
 const fileInput = document.getElementById("fileInput");
 const uploadArea = document.getElementById("uploadArea");
@@ -85,7 +92,6 @@ const previewImg = document.getElementById("previewImg");
 let interval;
 
 // === Trigger input file ===
-
 fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
     if (!file) return;
@@ -110,6 +116,8 @@ uploadArea.addEventListener("drop", (e) => {
 
     const file = e.dataTransfer.files[0];
     if (!file) return;
+
+    fileInput.files = e.dataTransfer.files; // biar masuk ke form
 
     showProgress(file);
     simulateProgress(file);

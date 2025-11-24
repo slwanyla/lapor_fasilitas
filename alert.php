@@ -53,6 +53,12 @@ function showAlert() {
                 $title = 'Berhasil diubah';
                 $message = 'Password berhasil diubah';
                 break;
+            
+            case 'report_created':
+                $type = 'success';
+                $title = 'Pengaduan Berhasil';
+                $message = 'Pengaduan berhasil dibuat';
+                break;
         }
     }
 
@@ -79,6 +85,19 @@ function showAlert() {
                 $title = 'Akses ditolak';
                 $message = 'Anda tidak memiliki izin';
                 break;
+            
+            case 'insert_failed':
+                $type = 'error';
+                $title = 'PPengaduan gagal';
+                $message = 'Pengaduan gagal dibuat';
+                break;
+            
+            case 'invalid_file':
+                $type = 'error';
+                $title = 'File tidak valid';
+                $message = 'Format file harus JPG, JPEG, atau PNG.';
+                break;
+
         }
     }
 ?>

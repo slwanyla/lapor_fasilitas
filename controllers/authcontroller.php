@@ -92,7 +92,7 @@ class AuthController {
         if ($user['role'] == "admin") {
             header("Location: ../admin/dashboard.php");
         } else {
-            header("Location: ../user/dashboard.php");
+            header("Location: ../user/user_dashboard.php");
         }
         exit;
     }

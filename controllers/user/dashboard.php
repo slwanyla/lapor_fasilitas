@@ -45,7 +45,7 @@ class DashboardController {
     ============================== */
     public function getRecentActivity($user_id)
     {
-        $sql = "SELECT id_laporan, judul, lokasi, status, updated_at 
+        $sql = "SELECT id_laporan, judul_laporan, lokasi, status, updated_at 
                 FROM laporan
                 WHERE id_user = ?
                 ORDER BY GREATEST(

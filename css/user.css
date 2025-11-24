@@ -429,49 +429,50 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
+    margin-top: 15px;
 }
 
 /* Dropdown */
 .dropdown {
     position: relative;
+    display: inline-block;
 }
 
 .dropdown-btn {
+    padding: 4px;
+    border-radius: 6px;
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 13px;
+}
+
+.dropdown-btn i {
+    font-size: 12px !important; 
+    color: #555;
 }
 
 .dropdown-menu {
     display: none;
     position: absolute;
+    top: 5px;        /* JARAK DITURUNIN BIAR GA NEMU ZONE MATI */
     right: 0;
-    top: 18px;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    min-width: 80px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    width: 95px;
+    z-index: 30;
 }
 
 .dropdown-menu a {
     display: block;
-    padding: 8px;
-    font-size: 13px;
-    color: #333;
+    padding: 6px 8px;   /* lebih besar biar gampang klik */
     text-decoration: none;
+    color: #333;
 }
 
 .dropdown-menu a:hover {
     background: #f1f1f1;
 }
-
-/* Show dropdown on hover (demo) */
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-
 
 .badge {
     padding: 6px 10px;
@@ -528,15 +529,6 @@ body {
     background: #eee;
 }
 
-.detail-btn {
-    margin-left: 12px;
-    padding: 6px 10px;
-    background: #4a4aff;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 13px;
-}
 
 /* Wrapper */
 .filter-wrapper {
@@ -666,6 +658,12 @@ body {
     display: flex;
 }
 
+.preview-box img {
+    width: 100%;   /* lebar ikut kotak */
+    height: auto;  /* tinggi ikut proporsi gambar */
+    display: block;
+    border-radius: 6px;
+}
 
 .report-container {
     width: 600px;
@@ -850,6 +848,155 @@ textarea {
     border-radius: 8px;
 }
 
+/* ==== FORM EDIT ==== */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(3px);
+    display: none;
+    z-index: 999;
+}
+
+.edit-modal {
+    width: 720px;
+    background: white;
+    border-radius: 12px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    padding-bottom: 20px;
+    transform: translate(-50%, -50%) scale(.7);
+    opacity: 0;
+    transition: .25s ease;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+}
+
+.edit-header {
+    background: #3335CA;
+    padding: 16px 20px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-btn {
+    background: #007bff; /* BIRU */
+    color: #fff; /* ICON PUTIH */
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.file-info {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #444;
+    text-align: center;
+    max-width: 200px;
+    word-wrap: break-word;
+    line-height: 1.4;
+}
+
+
+.file-btn i {
+    font-size: 18px;
+    color: white; /* ICON PUTIH */
+}
+
+.file-btn:hover {
+    background: #0069d9;
+}
+
+.file-wrapper {
+    margin-top: 10px;
+}
+
+
+.close-edit {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.edit-body {
+    display: flex;
+    gap: 25px;
+    padding: 20px;
+}
+
+.left-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.preview-box {
+    width: 150px;   /* bebas mau berapa */
+    height: auto;   /* mengikuti gambar */
+}
+.file-input {
+    border: 1px solid #ccc;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.right-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input, .textarea {
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.textarea {
+    height: 120px;
+}
+
+.btn-area {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-change {
+    background: #FFD31A;
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #F23D3D;
+    color: white;
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
 
 
 
