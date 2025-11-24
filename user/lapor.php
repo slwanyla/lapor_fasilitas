@@ -7,57 +7,63 @@
         <div class="report-container">
             <div class="white-box">
 
-        <h3>Create Report</h3>
+                <h3>Create Report</h3>
 
-        <!-- Upload Area -->
-        <div id="uploadArea" class="upload-area">
-            <div class="upload-icon">☁️</div>
-            <p>choose a media or drag & drop it here</p>
+                <!-- Upload Area -->
+                <div id="uploadArea" class="upload-area">
+                    <div class="upload-icon"><i class="fi fi-rr-cloud-upload"></i></div>
+                    <p>choose a media or drag & drop it here</p>
+                    <input type="file" id="fileInput"  accept=".jpg, .jpeg, .png" hidden>
+                    <button class="browse-btn" onclick="document.getElementById('fileInput').click()">
+                        browse file
+                    </button>
+                </div>
 
-            <input type="file" id="fileInput" hidden>
-            <button class="browse-btn" onclick="document.getElementById('fileInput').click()">
-                browse file
-            </button>
-        </div>
+                <!-- Progress Area (hidden default) -->
+                <div id="progressArea" class="progress-area hidden">
+                    <div class="progress-header">
+                        <span id="fileName">filename</span>
+                        <i class="fi fi-tr-cross-small close-progress" onclick="resetUpload()"></i>
+                    </div>
 
-        <!-- Progress Area (hidden default) -->
-        <div id="progressArea" class="progress-area hidden">
-            <div class="progress-header">
-                <span id="fileName">filename</span>
-                <i class="fi fi-tr-cross-small close-progress" onclick="resetUpload()"></i>
+                    <div class="progress-bar">
+                        <div id="progressLine"></div>
+                    </div>
+                </div>
+
+                <!-- Preview Area (hidden default) -->
+                <div id="previewArea" class="preview-area hidden">
+    
+                    <i class="fi fi-sr-circle-xmark close-preview" onclick="resetUpload()"></i>
+
+                    <img id="previewImg">
+
+                    <div class="preview-info">
+                        <span id="uploadedFileName"></span>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- Form Input -->
+                <form action="../controllers/ReportController.php" method="POST" enctype="multipart/form-data">
+
+                    <input type="hidden" name="action" value="create_report">
+
+                    <div class="row">
+                        <input type="text" name="judul_laporan" placeholder="Judul" required>
+                        <input type="text" name="lokasi" placeholder="Lokasi" required>
+                    </div>
+
+                    <textarea name="deskripsi" placeholder="Deskripsi" required></textarea>
+
+                    <div class="btn-row">
+                        <button type="submit" class="upload-btn">upload</button>
+                        <button type="button" class="close-btn">close</button>
+                    </div>
+                </form>
+
             </div>
-
-            <div class="progress-bar">
-                <div id="progressLine"></div>
-            </div>
-        </div>
-
-        <!-- Preview Area (hidden default) -->
-        <div id="previewArea" class="preview-area hidden">
-            <img id="previewImg">
-            <div class="preview-info">
-                <span id="uploadedFileName"></span>
-                <i class="fi fi-tr-cross-small close-preview" onclick="resetUpload()"></i>
-            </div>
-        </div>
-
-        <br>
-
-        <!-- Form Input -->
-        <form>
-            <div class="row">
-                <input type="text" placeholder="Judul">
-                <input type="text" placeholder="Lokasi">
-            </div>
-
-            <textarea placeholder="Deskripsi"></textarea>
-
-            <div class="btn-row">
-                <button type="submit" class="upload-btn">upload</button>
-                <button type="button" class="close-btn">close</button>
-            </div>
-        </form>
-    </div>
 
 
 <script>
@@ -79,10 +85,30 @@ const previewImg = document.getElementById("previewImg");
 let interval;
 
 // === Trigger input file ===
-uploadArea.addEventListener("click", () => fileInput.click());
 
 fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
+    if (!file) return;
+
+    showProgress(file);
+    simulateProgress(file);
+});
+
+// === Drag & Drop ===
+uploadArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = "#3a42e8";
+});
+
+uploadArea.addEventListener("dragleave", () => {
+    uploadArea.style.borderColor = "#ccc";
+});
+
+uploadArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    uploadArea.style.borderColor = "#ccc";
+
+    const file = e.dataTransfer.files[0];
     if (!file) return;
 
     showProgress(file);

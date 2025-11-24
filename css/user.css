@@ -610,6 +610,8 @@ body {
     border-top: 1px solid #ccc;
 }
 
+
+/* ==== FORM PENGADUAN ==== */
 .upload-container {
     width: 300px;
     border: 2px dashed #aaa;
@@ -657,11 +659,13 @@ body {
 }
 
 .preview-info {
-    margin-top: 5px;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+    justify-content: center !important;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
+
 
 .report-container {
     width: 600px;
@@ -669,7 +673,7 @@ body {
     padding: 20px;
 }
 
-.upload-area, .progress-area, .preview-area {
+.upload-area, .progress-area {
     border: 2px dashed #ccc;
     padding: 20px;
     text-align: center;
@@ -677,9 +681,41 @@ body {
     position: relative;
 }
 
-.upload-icon {
-    font-size: 40px;
+.preview-area {
+    position: relative;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
 }
+
+.close-preview {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    font-size: 28px;
+    cursor: pointer;
+
+    color: #777; /* ABU-ABU */
+    
+    background: #f0f0f0; /* background abu muda */
+    border-radius: 50%;
+    padding: 6px;
+    
+    z-index: 999; /* biar ga ketumpuk gambar */
+}
+
+.close-preview:hover {
+    color: #333; /* abu-abu lebih gelap saat hover */
+    background: #ddd;
+}
+
+.upload-icon i {
+    font-size: 45px;
+    color: rgba(150,150,150,0.5); /* abu abu transparan */
+}
+
 
 .browse-btn {
     margin-top: 10px;
@@ -720,9 +756,14 @@ body {
 }
 
 .preview-area img {
-    max-width: 100%;
-    border-radius: 8px;
+    width: 300px;
+    border-radius: 10px;
+    display: block;
+    margin: 20px auto 10px auto; 
+    position: relative;
 }
+
+
 
 .preview-info {
     margin-top: 10px;
@@ -733,8 +774,8 @@ body {
 
 .row {
     display: flex;
-    gap: 10px;
     margin-top: 15px;
+    gap: 15px;  
 }
 
 .row input {
@@ -750,14 +791,16 @@ textarea {
 }
 
 .btn-row {
-    margin-top: 15px;
     display: flex;
+    justify-content: flex-end;  /* tombol ke kanan */
     gap: 10px;
+    margin-top: 15px;
 }
 
 .upload-btn {
     background: #ffc400;
     padding: 8px 18px;
+    color: white;
     border: none;
     border-radius: 5px;
 }
@@ -782,13 +825,33 @@ textarea {
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    margin: 30px 0 30px 25px; /* ← geser ke kiri */
+    margin: 30px 0 30px 25px; /* ← geser ke kiri */  
 }
+
+.white-box h3 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 
 .report-container {
     display: flex;
     justify-content: center;
+    margin-top: 100px; 
+    margin-right: 470px;
 }
+
+.white-box input[type="text"],
+.white-box textarea {
+    margin-bottom: 15px;   /* jarak antar field */
+    background: #f2f2f2;   /* abu-abu */
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+
+
 
 
 
