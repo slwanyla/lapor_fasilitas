@@ -293,7 +293,7 @@ body {
 }
 
 
-/* CONTENT */
+/* KONTEN */
 .content {
     margin-left: 230px;
     padding: 20px;
@@ -418,6 +418,54 @@ body {
     overflow: hidden;
 }
 
+/* Background gelap */
+.img-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    padding-top: 40px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+}
+
+/* Gambar besar */
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 85%;
+    max-height: 85%;
+    border-radius: 10px;
+}
+
+/* Tombol X */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #f00;
+}
+
+/* Animasi fade */
+.img-modal {
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
 
 .recent-location {
     font-size: 12px;
@@ -480,21 +528,29 @@ body {
     font-size: 13px;
     font-weight: 600;
     text-transform: capitalize;
+    display: inline-block;
 }
 
-.status-new {
-    background: #ffd800;
-}
-
-.status-proses {
+.status-baru {       /* untuk status 'baru' → kotak biru */
     background: #5db1ff;
     color: white;
 }
 
-.status-selesai {
+.status-diproses {   /* untuk status 'diproses' → kotak kuning */
+    background: #ffd800;
+    color: white;
+}
+
+.status-selesai {    /* untuk status 'selesai' → kotak hijau */
     background: #3bb54a;
     color: white;
 }
+
+.status-tidakvalid { /* untuk status 'tidak_valid' → kotak merah */
+    background: #ff3b3b;
+    color: white;
+}
+
 
 .dropdown-btn {
     background: none;

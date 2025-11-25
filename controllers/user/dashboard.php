@@ -1,62 +1,25 @@
-<?php
+<?php 
+require_once __DIR__ . "/../../koneksi.php";
+require_once __DIR__ . "/../../models/dashboard.php";
+
 
 class DashboardController {
-
-    private $conn;
+    private $model;
 
     public function __construct($db)
     {
-        $this->conn = $db; // PDO
+        $this->model = new DashboardModel($db);
     }
 
-    /* =============================
-            GET RINGKASAN LAPORAN
-    ============================== */
     public function getSummary($user_id)
     {
-        $summary = [
-            "total"   => 0,
-            "baru"    => 0,
-            "proses"  => 0,
-            "selesai" => 0
-        ];
-
-        $sql = "SELECT 
-                    COUNT(*) AS total,
-                    SUM(CASE WHEN status = 'baru' THEN 1 ELSE 0 END) AS baru,
-                    SUM(CASE WHEN status = 'proses' THEN 1 ELSE 0 END) AS proses,
-                    SUM(CASE WHEN status = 'selesai' THEN 1 ELSE 0 END) AS selesai
-                FROM laporan
-                WHERE id_user = ?";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$user_id]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data) {
-            $summary = $data;
-        }
-
-        return $summary;
+        return $this->model->getSummary($user_id);
     }
 
-    /* =============================
-            GET 10 AKTIVITAS TERBARU
-    ============================== */
-    public function getRecentActivity($user_id)
+    public function getRecentActivity($user_id, $start='', $end='', $status='', $filter='') 
     {
-        $sql = "SELECT id_laporan, judul_laporan, lokasi, status, updated_at 
-                FROM laporan
-                WHERE id_user = ?
-                ORDER BY GREATEST(
-                    COALESCE(updated_at, created_at),
-                    created_at
-                ) DESC
-                LIMIT 10";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$user_id]);
-
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $this->model->getRecentActivity($user_id, $start, $end, $status, $filter);
     }
+
 }
+?>

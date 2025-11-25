@@ -24,8 +24,14 @@
             <div class="user-profile">
                 <img src="../pfp/icon.jpg">
                 <div class="user-text">
-                    <strong>Ahmad Dhani</strong><br>
-                    <small>284985699995</small>
+                        <strong><?= htmlspecialchars($_SESSION['user_name'] ?? '') ?></strong><br>
+                        <?php if(isset($_SESSION['user_nim'])): ?>
+                            <small><?= htmlspecialchars($_SESSION['user_nim']) ?></small>
+                        <?php elseif(isset($_SESSION['user_nidn'])): ?>
+                            <small><?= htmlspecialchars($_SESSION['user_nidn']) ?></small>
+                        <?php elseif(isset($_SESSION['user_nip'])): ?>
+                            <small><?= htmlspecialchars($_SESSION['user_nip']) ?></small>
+                        <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -63,8 +69,8 @@
                             <label>Status</label>
                             <select id="statusSelect">
                                 <option value="">Semua</option>
-                                <option value="pending">Pending</option>
-                                <option value="proses">Diproses</option>
+                                <option value="baru">Baru</option>
+                                <option value="diproses">Diproses</option>
                                 <option value="selesai">Selesai</option>
                             </select>
                         </div>
@@ -125,13 +131,19 @@ function applySearch() {
     let end = document.getElementById("dateEnd").value;
     let status = document.getElementById("statusSelect").value;
 
-    window.location = `riwayat.php?start=${start}&end=${end}&status=${status}`;
+    // bikin URL query
+    let url = 'user_dashboard.php?';
+    if(start) url += 'start=' + start + '&';
+    if(end) url += 'end=' + end + '&';
+    if(status) url += 'status=' + status + '&';
+
+    // hapus & terakhir
+    url = url.slice(0, -1);
+
+    window.location = url;
 }
 
 
-document.getElementById("popupClose").addEventListener("click", function() {
-    popup.style.display = "none";
-});
 
 </script>
 
