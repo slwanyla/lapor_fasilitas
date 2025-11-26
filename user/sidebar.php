@@ -30,7 +30,7 @@
         </ul>
 
         <div class="logout">
-            <a href="#">
+            <a href="../auth/login.php" onclick="return confirm('Yakin mau logout?')">
                 <i class="fi fi-rr-exit"></i>
                 <span>Logout</span>
             </a>

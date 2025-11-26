@@ -12,6 +12,8 @@ require_once "../controllers/user/dashboard.php";
 $user_id = $_SESSION['user_id'];
 $controller = new DashboardController($db);
 
+$totalLaporan = $controller->getTotalLaporan($user_id);
+
 // Ambil ringkasan laporan untuk user
 $summary = $controller->getSummary($user_id);
 
@@ -106,14 +108,20 @@ $recent = $controller->getRecentActivity($user_id, $startDate, $endDate, $search
                     </div>
                 </div>
             <?php endforeach; ?>
-        <?php else: ?>
-            <div class="no-data">
-                Tidak ada laporan untuk filter/search ini.
-            </div>
+            <?php else: ?>
+
+            <?php if ($totalLaporan == 0): ?>
+                <div class="no-data">
+                    Anda belum membuat laporan.
+                </div>
+            <?php else: ?>
+                <div class="no-data">
+                    Tidak ada laporan untuk filter/search ini.
+                </div>
+            <?php endif; ?>
+
         <?php endif; ?>
-
         <!-- ====== END LOOP ====== -->
-
     </div>
 
 </div>

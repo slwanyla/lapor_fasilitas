@@ -21,5 +21,12 @@ class DashboardController {
         return $this->model->getRecentActivity($user_id, $start, $end, $status, $filter);
     }
 
+    public function getTotalLaporan($user_id)
+    {
+        return $this->model->getTotalLaporan($user_id);
+    }
+
+    
+
 }
 ?>

@@ -71,6 +71,17 @@ class DashboardModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getTotalLaporan($user_id)
+    {
+        $sql = "SELECT COUNT(*) AS total FROM laporan WHERE id_user = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$user_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
+    }
+
+    
+
 }
 
 ?>

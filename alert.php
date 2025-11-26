@@ -59,6 +59,12 @@ function showAlert() {
                 $title = 'Pengaduan Berhasil';
                 $message = 'Pengaduan berhasil dibuat';
                 break;
+            
+            case 'logged_out':
+                $type = 'success';
+                $title = 'Logut Berhasil';
+                $message = 'Anda berhasil logout';
+                break;
         }
     }
 
