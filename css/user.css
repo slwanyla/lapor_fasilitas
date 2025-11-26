@@ -859,13 +859,15 @@ textarea {
     border-radius: 5px;
 }
 
-.close-btn {
+.cancel-btn {
     background: #ff4a4a;
     padding: 8px 18px;
     color: white;
     border: none;
     border-radius: 5px;
+    
 }
+
 
 .no-data {
     padding: 18px;

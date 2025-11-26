@@ -1,3 +1,6 @@
+<?php session_start(); ?>
+
+
 <?php include 'sidebar.php'; ?>
 <?php include 'header.php'; ?>
 <?php include '../alert.php'; showAlert(); ?>
@@ -62,7 +65,7 @@
 
             <div class="btn-row">
                 <button type="submit" class="upload-btn">upload</button>
-                <button type="button" class="close-btn">close</button>
+                <button type="reset" class="cancel-btn">Cancel</button>
             </div>
 
         </form>
