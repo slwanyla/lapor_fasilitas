@@ -570,9 +570,10 @@ body {
     box-shadow: 0 2px 10px rgba(0,0,0,0.15);
 }
 
-.recent-right:hover .dropdown-menu {
+/* .recent-right:hover .dropdown-menu {
     display: block;
-}
+} */
+
 
 .dropdown-menu a {
     display: block;

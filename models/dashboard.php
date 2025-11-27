@@ -63,7 +63,7 @@ class DashboardModel {
             }
         }
 
-        $sql .= " ORDER BY tanggal_update DESC";
+        $sql .= " ORDER BY COALESCE(tanggal_update, tanggal_lapor) DESC";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($params);
@@ -79,6 +79,46 @@ class DashboardModel {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total'];
     }
+
+    public function getAllLaporan() {
+        $sql = "
+            SELECT 
+                l.id AS id_laporan,
+                l.judul_laporan,
+                l.deskripsi,
+                l.lokasi,
+                l.foto,
+                l.status,
+                l.tanggal_lapor,
+                l.tanggal_update,
+
+                u.id AS user_id,
+                u.nama AS user_nama,
+                u.nim,
+                u.nidn,
+                u.nip,
+                u.role,
+                u.prodi
+
+            FROM laporan l
+            LEFT JOIN user u ON l.id_user = u.id
+            ORDER BY l.tanggal_update DESC, l.tanggal_lapor DESC
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public function getTotalLaporanAdmin() {
+        $sql = "SELECT COUNT(*) AS total FROM laporan";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+
+
 
     
 

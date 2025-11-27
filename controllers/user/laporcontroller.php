@@ -62,12 +62,56 @@ class ReportController {
 
         exit;
     }
+
+     public function update()
+    {
+        $id     = $_POST['id'];
+        $judul  = $_POST['judul_laporan'];
+        $lokasi = $_POST['lokasi'];
+        $desk   = $_POST['deskripsi'];
+
+        $fotoBaru = null;
+
+        // Jika ada upload foto baru
+        if (!empty($_FILES['foto']['name'])) {
+
+            $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
+            $allowed = ['jpg','jpeg','png'];
+
+            if (!in_array($ext, $allowed)) {
+                header("Location: ../../user/user_dashboard.php?error=file_type");
+                exit;
+            }
+
+            $fileName = time() . "_" . uniqid() . "." . $ext;
+            $temp = $_FILES['foto']['tmp_name'];
+
+            move_uploaded_file($temp, "../../uploads/" . $fileName);
+
+            $fotoBaru = $fileName;
+        }
+
+        // Update via model
+        $this->model->updateLaporan($id, $judul, $lokasi, $desk, $fotoBaru);
+
+        // Redirect ke dashboard setelah berhasil update
+        header("Location: ../../user/user_dashboard.php?success=update_report");
+        exit;
+    }
+
 }
 
 
 // === ROUTER === //
 $report = new ReportController($db);
 
-if (isset($_POST['action']) && $_POST['action'] === "create_report") {
-    $report->create();
+if (isset($_POST['action'])) {
+
+    if ($_POST['action'] == "create_report") {
+        $report->create();
+    }
+
+    if ($_POST['action'] == "update_report") {
+        $report->update();
+    }
 }

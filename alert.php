@@ -12,6 +12,7 @@ function showAlert() {
         <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
         <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
         <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-crossed/css/uicons-regular-crossed.css">
 
 
 
@@ -64,6 +65,12 @@ function showAlert() {
                 $type = 'success';
                 $title = 'Logut Berhasil';
                 $message = 'Anda berhasil logout';
+                break;
+            
+            case 'update_report':
+                $type = 'success';
+                $title = 'Berhasil di ubah';
+                $message = 'Laporan berhasil di ubah';
                 break;
         }
     }

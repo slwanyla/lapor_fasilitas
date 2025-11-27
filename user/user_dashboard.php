@@ -81,6 +81,12 @@ $recent = $controller->getRecentActivity($user_id, $startDate, $endDate, $search
                         <div class="recent-date">
                             <?= date("d M Y • H:i", strtotime($row['tanggal_lapor'])) ?>
                         </div>
+                        <?php if (!empty($row['tanggal_update'])): ?>
+                            <div class="recent-update" style="font-size:12px; color:#777;">
+                                Updated: <?= date("d M Y • H:i", strtotime($row['tanggal_update'])) ?>
+                            </div>
+                        <?php endif; ?>
+                        
                         <div class="status-wrapper">
                             <?php
                                 $statusClass = [
@@ -96,11 +102,21 @@ $recent = $controller->getRecentActivity($user_id, $startDate, $endDate, $search
                             </span>
 
                             <div class="dropdown">
-                                <button class="dropdown-btn">
+                               <button class="dropdown-btn" type="button">
                                     <i class="fi fi-rr-menu-dots-vertical"></i>
                                 </button>
+
                                 <div class="dropdown-menu">
-                                    <a href="#" onclick="openEdit(<?= $row['id_laporan'] ?>)">Edit</a>
+                                    <a href="#"
+                                        onclick='openEdit(
+                                                <?= json_encode($row["id_laporan"]) ?>,
+                                                <?= json_encode($row["judul_laporan"]) ?>,
+                                                <?= json_encode($row["lokasi"]) ?>,
+                                                <?= json_encode($row["deskripsi"]) ?>,
+                                                <?= json_encode($row["foto"]) ?>
+                                        ); return false;'>
+                                            Edit
+                                        </a>
                                     <a href="../controllers/report/delete.php?id=<?= $row['id_laporan'] ?>">Hapus</a>
                                 </div>
                             </div>

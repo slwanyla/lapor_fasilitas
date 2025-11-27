@@ -3,10 +3,13 @@
 
 <!-- EDIT MODAL -->
 <div id="editModal" class="edit-modal">
+      <form action="../controllers/user/laporcontroller.php" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="action" value="update_report">
+          <input type="hidden" id="editId" name="id">
 
     <div class="edit-header">
         <span>Edit Form</span>
-        <button class="close-edit" onclick="closeEdit()">
+       <button type="button" class="close-edit" onclick="closeEdit()">
             <i class="fi fi-br-cross-small"></i>
         </button>
     </div>
@@ -21,7 +24,7 @@
 
                 <div id="fileInfo" class="file-info"></div>
                 <div class="file-wrapper">
-                    <input type="file" id="fileInput" hidden>
+                    <input type="file" id="fileInput" name="foto" hidden>
 
                     <button type="button" class="file-btn" onclick="document.getElementById('fileInput').click()">
                         <i class="fi fi-rr-file-image"></i>   
@@ -32,18 +35,20 @@
         </div>
 
         <div class="right-form">
+           
+
             <label>Judul</label>
-            <input type="text" id="editJudul" class="input">
+            <input type="text" id="editJudul" name="judul_laporan" class="input">
 
             <label>Lokasi</label>
-            <input type="text" id="editLokasi" class="input">
+            <input type="text" id="editLokasi" name="lokasi" class="input">
 
             <label>Deskripsi</label>
-            <textarea id="editDeskripsi" class="textarea"></textarea>
+            <textarea id="editDeskripsi" name="deskripsi" class="textarea"></textarea>
 
             <div class="btn-area">
-                <button class="btn-change">Change</button>
-                <button class="btn-cancel" onclick="closeEdit()">Cancel</button>
+                <button type="submit" class="btn-change">Change</button>
+                <button type="button" class="btn-cancel" onclick="closeEdit()">Cancel</button>
             </div>
         </div>
 
@@ -54,18 +59,37 @@
 <!-- JS OPEN & CLOSE MODAL -->
 <script>
 
-    
-    function openEdit() {
+    function openEdit(id, judul, lokasi, deskripsi, foto) {
         document.getElementById("editOverlay").style.display = "block";
         const modal = document.getElementById("editModal");
 
-        modal.style.display = "block";
+        // Prefill form
+        document.getElementById("editId").value = id;
+        document.getElementById("editJudul").value = judul;
+        document.getElementById("editLokasi").value = lokasi;
+        document.getElementById("editDeskripsi").value = deskripsi;
 
+        // Preview foto lama
+        const previewImg = document.getElementById("previewImg");
+        const fileInfo = document.getElementById("fileInfo");
+
+        if (foto) {
+            previewImg.src = "../uploads/" + foto;
+            fileInfo.innerHTML = foto;
+        } else {
+            previewImg.src = "";
+            fileInfo.innerHTML = "Tidak ada file";
+        }
+
+        // Show modal
+        modal.style.display = "block";
         setTimeout(() => {
             modal.style.opacity = "1";
             modal.style.transform = "translate(-50%, -50%) scale(1)";
         }, 20);
     }
+
+
 
     function closeEdit() {
         const modal = document.getElementById("editModal");

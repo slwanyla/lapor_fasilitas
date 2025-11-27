@@ -18,4 +18,23 @@ class ReportModel {
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id_user, $judul, $deskripsi, $lokasi, $fotoName]);
     }
+
+   public function updateLaporan($id, $judul, $lokasi, $desk, $foto = null)
+    {
+        if ($foto) {
+            $sql = "UPDATE laporan 
+                    SET judul_laporan = ?, lokasi = ?, deskripsi = ?, foto = ?, tanggal_update = NOW()
+                    WHERE id = ?";
+            $params = [$judul, $lokasi, $desk, $foto, $id];
+        } else {
+            $sql = "UPDATE laporan 
+                    SET judul_laporan = ?, lokasi = ?, deskripsi = ?, tanggal_update = NOW()
+                    WHERE id = ?";
+            $params = [$judul, $lokasi, $desk, $id];
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute($params);
+    }
+
 }
