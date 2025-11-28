@@ -13,8 +13,8 @@
                 </a>
             </li>
 
-            <li class="<?= basename($_SERVER['PHP_SELF']) == 'lapor.php' ? 'active' : '' ?>">
-                <a href="lapor.php">
+            <li class="<?= basename($_SERVER['PHP_SELF']) == 'DataUser.php' ? 'active' : '' ?>">
+                <a href="DataUser.php">
                     <i class="fi fi-br-file-edit"></i>
                     <span>Data Pengguna</span>
                 </a>

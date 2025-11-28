@@ -13,11 +13,7 @@ function showAlert() {
         <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
         <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
         <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-crossed/css/uicons-regular-crossed.css">
-
-
-
-
-
+        <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css">
 
     ';
 
@@ -72,6 +68,12 @@ function showAlert() {
                 $title = 'Berhasil di ubah';
                 $message = 'Laporan berhasil di ubah';
                 break;
+            
+            case 'update_status':
+                $type = 'success';
+                $title = 'Berhasil di ubah';
+                $message = 'Status berhasil di ubah';
+                break;
         }
     }
 
@@ -101,7 +103,7 @@ function showAlert() {
             
             case 'insert_failed':
                 $type = 'error';
-                $title = 'PPengaduan gagal';
+                $title = 'Pengaduan gagal';
                 $message = 'Pengaduan gagal dibuat';
                 break;
             
@@ -109,6 +111,12 @@ function showAlert() {
                 $type = 'error';
                 $title = 'File tidak valid';
                 $message = 'Format file harus JPG, JPEG, atau PNG.';
+                break;
+            
+             case 'update_failed':
+                $type = 'error';
+                $title = 'Status gagal';
+                $message = 'Status gagal di ubah';
                 break;
 
         }

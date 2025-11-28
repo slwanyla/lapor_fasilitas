@@ -132,7 +132,7 @@ function applySearch() {
     let status = document.getElementById("statusSelect").value;
 
     // bikin URL query
-    let url = 'user_dashboard.php?';
+    let url = 'admin_dashboard.php?';
     if(start) url += 'start=' + start + '&';
     if(end) url += 'end=' + end + '&';
     if(status) url += 'status=' + status + '&';

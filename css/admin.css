@@ -293,33 +293,60 @@
 }
 
 /* STAT BOXES */
+/* Jarak antar box */
 .stats-container {
     display: flex;
-    gap: 20px;
-    margin-top: 15px;
+    flex-wrap: wrap;
+    gap: 110px; /* jarak antar box */
+    margin-top: 20px;
 }
 
 .stat-box {
-    width: 160px;
+    width: 220px;
     height: 100px;
     background: white;
     border-radius: 12px;
-    padding: 15px;
-    font-size: 15px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    gap: 20px;
+}
+
+
+.stat-box:hover {
+    box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: #03c3ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon i {
+    font-size: 30px;
+    color: white;
+}
+
+.stat-info .title {
+    font-size: 20px;
+    color: #007ab8;
+    margin: 0;
     font-weight: 600;
-    text-align: center;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 
-.stat-box span {
-    font-size: 26px;
+.stat-info .number {
+    font-size: 24px;
+    margin: 0;
     font-weight: bold;
+    color: #008cff;
 }
 
-.blue { border-top: 4px solid #008cff; }
-.yellow { border-top: 4px solid #fcca00; }
-.green { border-top: 4px solid #00d26a; }
-.cyan { border-top: 4px solid #00c8ff; }
 
 .table-container {
     margin-top: 30px;
@@ -402,25 +429,9 @@
     text-decoration: none;
 }
 
-.btn-view:hover { color: #008cff; }
 .btn-edit:hover { color: #f2c700; }
 .btn-delete:hover { color: #ff3434; }
 
-.btn-view {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 10px;
-    background: #4b8df8;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.btn-view i {
-    font-size: 18px;
-}
 
 .btn-edit {
     display: inline-flex;
@@ -453,4 +464,315 @@
 .btn-delete i {
     font-size: 18px;
 }
+
+
+/* FROM EDIT */
+/* Latar belakang gelap */
+/* ============================= */
+/* OVERLAY */
+/* ============================= */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(3px);
+    display: none;
+    z-index: 999;
+}
+
+/* ============================= */
+/* MODAL */
+/* ============================= */
+.edit-modal {
+    width: 720px;
+    background: white;
+    border-radius: 12px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    padding-bottom: 20px;
+    transform: translate(-50%, -50%) scale(.7);
+    opacity: 0;
+    transition: .25s ease;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+}
+
+/* HEADER */
+.edit-header {
+    background: #3335CA;
+    padding: 16px 20px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-edit {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* ============================= */
+/* BODY */
+/* ============================= */
+.edit-body {
+    display: flex;
+    gap: 25px;
+    padding: 20px;
+}
+
+/* LEFT SIDE: PREVIEW FOTO */
+.left-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.preview-box img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #eee;
+}
+
+.file-info {
+    font-size: 13px;
+    color: #444;
+    text-align: center;
+    width: 160px;
+    word-wrap: break-word;
+}
+
+/* ============================= */
+/* RIGHT SIDE: FORM */
+/* ============================= */
+.right-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* INPUT & TEXTAREA */
+.input, 
+.textarea, 
+select.input {
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+}
+
+/* TEXTAREA SIZE */
+.textarea {
+    height: 120px;
+}
+
+/* READ-ONLY STYLE */
+.input[readonly],
+.textarea[readonly] {
+    background: #f1f1f1;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* ============================= */
+/* BUTTON AREA */
+/* ============================= */
+.btn-area {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.btn-save {
+    background: #FFD31A;
+    color: white;
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-save:hover {
+    background: #e6bd00;
+}
+
+.btn-cancel {
+    background: #F23D3D;
+    color: white;
+    padding: 8px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #d63232;
+}
+
+
+/* Tombol close */
+.close {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Modal overlay */
+.img-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.85);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn .2s ease-in-out;
+}
+
+/* Gambar di modal */
+.img-modal .modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255,255,255,.3);
+    animation: zoomIn .2s ease-in-out;
+}
+
+/* Tombol tutup */
+.img-modal .close-btn {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.img-modal .close-btn:hover {
+    color: #ff4444;
+}
+
+/* Thumbnail kecil di tabel */
+.img-thumbnail {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: .2s;
+}
+
+.img-thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* Animasi */
+@keyframes fadeIn {
+    from { opacity: 0 }
+    to   { opacity: 1 }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(.8); opacity: 0 }
+    to   { transform: scale(1); opacity: 1 }
+}
+
+.filter-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tombol filter */
+.filter-btn {
+    background: #fff;
+    border: 2px solid #000;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+/* Hover */
+.filter-btn:hover {
+    background: #000;
+    color: #fff;
+}
+
+
+/* Dropdown icon khusus */
+.filter-btn .dropdown-icon {
+    position: relative;
+    top: 4px;   /* geser ke bawah */
+    
+}
+
+
+
+/* Menu dropdown */
+.filter-menu {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    width: 150px;
+    background: #fff;
+    border-top: 1px solid #dcdcdc;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    padding: 6px 0;
+}
+
+/* Item menu */
+.filter-menu a {
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #000;
+    display: block;
+    font-weight: 500;
+}
+
+.filter-menu a:hover {
+    background: #eee;
+}
+
+/* Garis */
+.filter-menu hr {
+    margin: 6px 0;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+
+
+
 

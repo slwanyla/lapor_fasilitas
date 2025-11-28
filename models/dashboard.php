@@ -71,14 +71,15 @@ class DashboardModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getTotalLaporan($user_id)
+    public function getTotalLaporan()
     {
-        $sql = "SELECT COUNT(*) AS total FROM laporan WHERE id_user = ?";
+        $sql = "SELECT COUNT(*) AS total FROM laporan";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$user_id]);
+        $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row['total'];
     }
+
 
     public function getAllLaporan() {
         $sql = "
@@ -110,17 +111,80 @@ class DashboardModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getTotalLaporanAdmin() 
+    {
+        $sql = "SELECT COUNT(*) AS total FROM laporan"; 
+        $stmt = $this->conn->prepare($sql); 
+        $stmt->execute(); return 
+        $stmt->fetch(PDO::FETCH_ASSOC)['total']; 
+    }
 
-    public function getTotalLaporanAdmin() {
+    public function getFilterAdmin($start='', $end='', $status='', $filter='') {
+        $sql = "SELECT 
+                    l.id AS id_laporan,
+                    l.judul_laporan,
+                    l.lokasi,
+                    l.deskripsi,
+                    l.foto,
+                    l.status,
+                    l.tanggal_lapor,
+                    l.tanggal_update,
+
+                    u.nama AS user_nama,
+                    u.role,
+                    u.nim,
+                    u.nidn,
+                    u.nip,
+                    u.prodi
+                FROM laporan l
+                LEFT JOIN user u ON l.id_user = u.id
+                WHERE 1";
+        
+        $params = [];
+
+        if ($start) {
+            $sql .= " AND l.tanggal_lapor >= :start";
+            $params['start'] = $start . " 00:00:00";
+        }
+
+        if ($end) {
+            $sql .= " AND l.tanggal_lapor <= :end";
+            $params['end'] = $end . " 23:59:59";
+        }
+
+        $finalStatus = $filter ?: $status;
+
+        if ($finalStatus) {
+            $allowed = ['baru','diproses','selesai','tidak_valid'];
+            if (in_array($finalStatus, $allowed)) {
+                $sql .= " AND l.status = :status";
+                $params['status'] = $finalStatus;
+            }
+        }
+
+        $sql .= " ORDER BY COALESCE(l.tanggal_update, l.tanggal_lapor) DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+     public function getCountByStatus($status) {
+        $sql = "SELECT COUNT(*) AS total FROM laporan WHERE status = :status";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":status", $status);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+
+    // total laporan (semua status)
+    public function getTotalReports() {
         $sql = "SELECT COUNT(*) AS total FROM laporan";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
-
-
-
-    
 
 }
 

@@ -20,9 +20,6 @@ $summary = $controller->getSummary($user_id);
 // Ambil aktivitas terbaru user
 $recent = $controller->getRecentActivity($user_id);
 
-$user_id = $_SESSION['user_id'];
-$controller = new DashboardController($db);
-
 // Ambil parameter dari URL
 $filterStatus = $_GET['filter'] ?? ''; // dari dropdown filter (New, Dalam Proses, dll)
 $searchStatus = $_GET['status'] ?? ''; // dari search popup
@@ -39,7 +36,7 @@ $recent = $controller->getRecentActivity($user_id, $startDate, $endDate, $search
 <?php include 'edit.php'; ?>
 <?php include '../alert.php'; showAlert(); ?>
 
-<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../css/user.css">
 
 <div class="main-content">
 
@@ -101,25 +98,28 @@ $recent = $controller->getRecentActivity($user_id, $startDate, $endDate, $search
                                 <?= ucwords(str_replace('_', ' ', $row['status'])) ?>
                             </span>
 
+                            <?php if ($row['status'] == 'baru'): ?>
                             <div class="dropdown">
-                               <button class="dropdown-btn" type="button">
+                                <button class="dropdown-btn" type="button">
                                     <i class="fi fi-rr-menu-dots-vertical"></i>
                                 </button>
 
                                 <div class="dropdown-menu">
                                     <a href="#"
                                         onclick='openEdit(
-                                                <?= json_encode($row["id_laporan"]) ?>,
-                                                <?= json_encode($row["judul_laporan"]) ?>,
-                                                <?= json_encode($row["lokasi"]) ?>,
-                                                <?= json_encode($row["deskripsi"]) ?>,
-                                                <?= json_encode($row["foto"]) ?>
+                                            <?= json_encode($row["id_laporan"]) ?>,
+                                            <?= json_encode($row["judul_laporan"]) ?>,
+                                            <?= json_encode($row["lokasi"]) ?>,
+                                            <?= json_encode($row["deskripsi"]) ?>,
+                                            <?= json_encode($row["foto"]) ?>
                                         ); return false;'>
                                             Edit
-                                        </a>
+                                    </a>
                                     <a href="../controllers/report/delete.php?id=<?= $row['id_laporan'] ?>">Hapus</a>
                                 </div>
                             </div>
+                        <?php endif; ?>
+
                         </div>
                     </div>
                 </div>

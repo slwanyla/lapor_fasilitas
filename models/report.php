@@ -37,4 +37,13 @@ class ReportModel {
         return $stmt->execute($params);
     }
 
+    // Update status laporan
+    public function updateStatus($id, $status)
+    {
+        $sql = "UPDATE laporan SET status = ?, tanggal_update = NOW() WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$status, $id]);
+    }
+
+
 }
