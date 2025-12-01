@@ -39,14 +39,53 @@
         <h2 class="header-title">Lapor Kampus</h2>
 
         <div class="header-right">
-            <div class="notif-icon">
-                <i class="fi fi-rr-bell"></i>
+            <div class="notif-wrapper">
+                <div class="notif-icon" onclick="toggleNotif()">
+                    <i class="fi fi-rr-bell"></i>
+                    <?php if($unread > 0): ?>
+                        <span class="notif-badge"><?= $unread ?></span>
+                    <?php endif; ?>
+                </div>
+
+                <div id="notifPopup" class="notif-popup">
+                
+                <div class="notif-header">
+                    <h3>Notifications</h3>
+                </div>
+
+                <div class="notif-list">
+                    <?php foreach($listNotif as $n): ?>
+                        <div class="notif-item <?= $n['status_baca'] == 0 ? 'unread' : '' ?>">
+    
+                            <div class="notif-icon-left">
+                                <i class="fi fi-sr-megaphone"></i>
+                            </div>
+
+                            <div class="notif-text">
+                                <p><?= $n['isi_notifikasi'] ?></p>
+                            </div>
+
+                            <div class="notif-time-right">
+                                <?= $n['tanggal_notifikasi'] ?>
+                            </div>
+
+                        </div>
+
+                    <?php endforeach; ?>
+                </div>
+
+                <form method="POST" action="../controllers/nontifikasi/markreadAdmin.php" class="mark-bottom">
+                    <button class="mark-read-btn">Mark all read</button>
+                </form>
             </div>
+
+    
+        </div>
 
             <div class="search-box" id="searchBox">
                  <i class="fi fi-rs-cross-small close-search" id="closeSearch"></i>
-                <input type="text" placeholder="Search...">
-                <button><i class="fi fi-rr-search"></i></button>
+                <input type="text" id="manualSearch" placeholder="Search...">
+                <button onclick="manualSearch()"> <i class="fi fi-rr-search"></i> </button>
             </div>
 
             <div class="search-popup" id="searchPopup">
@@ -142,6 +181,28 @@ function applySearch() {
 
     window.location = url;
 }
+
+function toggleNotif() {
+    const popup = document.getElementById("notifPopup");
+    popup.classList.toggle("show");
+}
+
+// Tutup popup kalo klik luar
+document.addEventListener("click", function(e){
+    const popup = document.getElementById("notifPopup");
+    const icon = document.querySelector(".notif-icon");
+
+    if (!popup.contains(e.target) && !icon.contains(e.target)) {
+        popup.classList.remove("show");
+    }
+});
+
+document.getElementById("manualSearch").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        e.preventDefault();
+        manualSearch();
+    }
+});
 
 
 

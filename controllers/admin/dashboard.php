@@ -17,8 +17,8 @@ class AdminDashboardController {
         return $this->model->getSummary($user_id);
     }
     
-    public function getFilterAdmin($start='', $end='', $status='', $filter='') {
-        return $this->model->getFilterAdmin($start, $end, $status, $filter);
+    public function getFilterAdmin($start='', $end='', $status='', $filter='', $keyword='') {
+        return $this->model->getFilterAdmin($start, $end, $status, $filter, $keyword);
     }
 
 

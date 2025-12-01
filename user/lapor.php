@@ -1,10 +1,22 @@
-<?php session_start(); ?>
+<?php
+session_start(); 
 
+require_once "../koneksi.php";
+require_once "../controllers/nontifikasi/nontifikasi.php";
 
-<?php include 'sidebar.php'; ?>
-<?php include 'header.php'; ?>
-<?php include '../alert.php'; showAlert(); ?>
+include 'sidebar.php';
 
+// 🔥 WAJIB sebelum header.php
+$notifController = new NotificationController($db);
+
+$userId = $_SESSION['user_id'];
+$unread = $notifController->getUnreadCount($userId, 'user');
+$listNotif = $notifController->getNotifications($userId, 'user');
+
+include 'header.php'; 
+include '../alert.php'; 
+showAlert(); 
+?>
 
 <div class="report-container">
     <div class="white-box">

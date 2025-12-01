@@ -45,5 +45,54 @@ class ReportModel {
         return $stmt->execute([$status, $id]);
     }
 
+    public function getUserIdByReport($id)
+    {
+        $sql = "SELECT id_user FROM laporan WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetchColumn();
+    }
+
+    public function softDelete($id)
+    {
+        $query = "UPDATE laporan SET is_deleted = 1 WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([$id]);
+    }
+
+    public function getFilteredReports($search, $status, $from, $to)
+    {
+        $query = "SELECT * FROM laporan WHERE is_deleted = 0";
+        $params = [];
+
+        if (!empty($search)) {
+            $query .= " AND (judul_laporan LIKE ? OR lokasi LIKE ? OR deskripsi LIKE ?)";
+            $params[] = "%$search%";
+            $params[] = "%$search%";
+            $params[] = "%$search%";
+        }
+
+        if (!empty($status)) {
+            $query .= " AND status = ?";
+            $params[] = $status;
+        }
+
+        if (!empty($from)) {
+            $query .= " AND DATE(tanggal_lapor) >= ?";
+            $params[] = $from;
+        }
+
+        if (!empty($to)) {
+            $query .= " AND DATE(tanggal_lapor) <= ?";
+            $params[] = $to;
+        }
+
+        $query .= " ORDER BY tanggal_lapor DESC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 }

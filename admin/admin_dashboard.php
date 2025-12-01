@@ -4,6 +4,7 @@ session_start();
 
 require_once "../koneksi.php";
 require_once "../controllers/admin/dashboard.php";
+require_once "../controllers/nontifikasi/nontifikasi.php";
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../auth/login.php");
@@ -15,22 +16,24 @@ $user_id = $_SESSION['user_id'];
 $controller = new AdminDashboardController($db);
 
 // Ambil parameter filter
+$keyword = $_GET['keyword'] ?? '';
 $filterStatus = $_GET['filter'] ?? '';
 $searchStatus = $_GET['status'] ?? '';
 $startDate = $_GET['start'] ?? '';
 $endDate = $_GET['end'] ?? '';
 
 // Ambil data
-$data = $controller->getFilterAdmin($startDate, $endDate, $searchStatus, $filterStatus);
+$data = $controller->getFilterAdmin($startDate, $endDate, $searchStatus, $filterStatus, $keyword);
 $total = $controller->getTotalLaporanAdmin();
 
 $stats = $controller->getDashboardStats();
 
-// Ambil parameter dari URL
-$filterStatus = $_GET['filter'] ?? ''; // dari dropdown filter (New, Dalam Proses, dll)
-$searchStatus = $_GET['status'] ?? ''; // dari search popup
-$startDate = $_GET['start'] ?? '';
-$endDate = $_GET['end'] ?? '';
+$notifController = new NotificationController($db);
+
+
+$unread = $notifController->getUnreadCount($user_id, 'admin');
+$listNotif = $notifController->getNotifications($user_id, 'admin');
+
 
 include "sidebar.php";
 include "header.php";
@@ -87,7 +90,7 @@ include '../alert.php'; showAlert();
 
 
 
-    <div class="table-container">
+    <div class="table-container"  id="resultContainer">
         <h3>Data Laporan</h3>
 
          <div class="filter-wrapper">
@@ -184,7 +187,7 @@ include '../alert.php'; showAlert();
                                 >
                                     <i class="fi fi-rr-edit"></i>
                             </a>
-                            <a href="#" class="btn-delete" data-rowid="row-<?= $row['id_laporan']; ?>">
+                            <a href="#" class="btn-delete" data-id="<?= $row['id_laporan']; ?>">
                                 <i class="fi fi-br-trash"></i>
                             </a>
                         </td>
@@ -198,6 +201,30 @@ include '../alert.php'; showAlert();
 
     </div>
 </div>
+
+<div class="download-container">
+    <a href="../controllers/admin/exportFile.php?search=<?= $_GET['search'] ?? '' ?>&status=<?= $_GET['status'] ?? '' ?>&from=<?= $_GET['from'] ?? '' ?>&to=<?= $_GET['to'] ?? '' ?>" 
+    class="btn-download">
+        <i class="fi fi-br-download"></i> 
+    </a>
+</div>
+
+
+<!-- Overlay -->
+<div id="deleteOverlay" class="delete-overlay" style="display:none;">
+    <div class="delete-popup">
+        <div class="popup-icon">
+            <i class="fi fi-rr-info"></i>
+        </div>
+        <p>Apakah anda yakin untuk dihapus?</p>
+
+        <div class="popup-actions">
+            <button id="confirmDelete" class="btn-yes">YA</button>
+            <button id="cancelDelete" class="btn-no">TIDAK</button>
+        </div>
+    </div>
+</div>
+
 
 <div id="imageModal" class="img-modal">
     <span class="close-btn" onclick="closeImage()">×</span>
@@ -263,18 +290,118 @@ include '../alert.php'; showAlert();
             }
     });
 
-    // DELETE HANYA TAMPILAN (tidak hapus DB)
-    document.querySelectorAll(".btn-delete").forEach(btn => {
-        btn.addEventListener("click", function(e) {
-            e.preventDefault();
-            let rowId = this.dataset.rowid;
-            let row = document.getElementById(rowId);
-            if (row) {
-                row.style.display = "none"; // hilang dari tampilan
-            }
-        });
-    });
+    function manualSearch() {
+    let q = document.getElementById("manualSearch").value.trim();
+    let start = document.getElementById("dateStart")?.value;
+    let end = document.getElementById("dateEnd")?.value;
+    let status = document.getElementById("statusSelect")?.value;
 
+    // jika input kosong → kembali ke asli
+    if (!q && !start && !end && !status) {
+        window.location = "admin_dashboard.php";
+        return;
+    }
+
+    let url = "admin_dashboard.php?";
+
+    if (q) url += "keyword=" + encodeURIComponent(q) + "&";
+    if (start) url += "start=" + start + "&";
+    if (end) url += "end=" + end + "&";
+    if (status) url += "status=" + status + "&";
+
+    url = url.slice(0, -1);
+    window.location = url;
+}
+
+// === ENTER KEY: jangan tutup popup, jangan hilang X ===
+document.getElementById("manualSearch").addEventListener("keypress", function(e){
+    if (e.key === "Enter") {
+        e.preventDefault();  // stop submit form atau reload
+        manualSearch();      // tetap lakukan search
+    }
+});
+
+// === X: kembalikan halaman seperti semula ===
+closeSearch.addEventListener("click", function(e) {
+    e.stopPropagation();
+    window.location = "admin_dashboard.php";  // reset semua filter
+});
+
+// === buka popup normal ===
+searchBox.addEventListener("click", function(e) {
+    popup.style.display = "block";
+    closeSearch.style.display = "block";
+    searchBox.classList.add("input-expanded");
+    e.stopPropagation();
+});
+
+// klik di luar → tutup popup tapi jangan reload
+document.addEventListener("click", function(e) {
+    if (!searchBox.contains(e.target) && !popup.contains(e.target)) {
+        popup.style.display = "none";
+        closeSearch.style.display = "none";
+        searchBox.classList.remove("input-expanded");
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    let urlParams = new URLSearchParams(window.location.search);
+
+    if (
+        urlParams.get("keyword") ||
+        urlParams.get("start") ||
+        urlParams.get("end") ||
+        urlParams.get("status")
+    ) {
+        // buka popup otomatis kalau ada filter
+        document.getElementById("searchPopup").style.display = "block";
+        document.getElementById("closeSearch").style.display = "block";
+        document.getElementById("searchBox").classList.add("input-expanded");
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    let urlParams = new URLSearchParams(window.location.search);
+
+    // isi ulang input jika ada di URL
+    if (urlParams.get("keyword")) {
+        document.getElementById("manualSearch").value = urlParams.get("keyword");
+    }
+    if (urlParams.get("start")) {
+        document.getElementById("dateStart").value = urlParams.get("start");
+    }
+    if (urlParams.get("end")) {
+        document.getElementById("dateEnd").value = urlParams.get("end");
+    }
+    if (urlParams.get("status")) {
+        document.getElementById("statusSelect").value = urlParams.get("status");
+    }
+});
+
+let deleteID = null;
+
+document.querySelectorAll(".btn-delete").forEach(btn => {
+    btn.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        deleteID = this.dataset.id;  // ID yg benar
+
+        document.getElementById("deleteOverlay").style.display = "flex";
+    });
+});
+
+// Klik "TIDAK"
+document.getElementById("cancelDelete").addEventListener("click", function() {
+    deleteID = null;
+    document.getElementById("deleteOverlay").style.display = "none";
+});
+
+// Klik "YA"
+document.getElementById("confirmDelete").addEventListener("click", function() {
+    if (deleteID) {
+        window.location = "../controllers/admin/delete.php?id=" + deleteID;
+    }
+});
 </script>
 
 

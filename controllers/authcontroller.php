@@ -88,7 +88,8 @@ class AuthController {
         session_start(); // pastikan session sudah dimulai
         $_SESSION['user_id']   = $user['id'];
         $_SESSION['role']      = $user['role'];
-
+        
+       
         // Tambahkan ini untuk nama dan NIM
         $_SESSION['user_name'] = $user['nama'];
 

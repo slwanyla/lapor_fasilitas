@@ -11,7 +11,11 @@ class AdminPenggunaController {
         $this->model = new AdminModel($db);
     }
 
-    public function getPengguna() {
+    public function getPengguna($keyword = "") {
+        if (!empty($keyword)) {
+            return $this->model->searchUsers($keyword);
+        }
+
         return $this->model->getAllUsers();
     }
 }

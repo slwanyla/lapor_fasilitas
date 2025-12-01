@@ -16,9 +16,9 @@ class DashboardController {
         return $this->model->getSummary($user_id);
     }
 
-    public function getRecentActivity($user_id, $start='', $end='', $status='', $filter='') 
+    public function getRecentActivity($user_id, $start='', $end='', $status='', $filter='', $query='') 
     {
-        return $this->model->getRecentActivity($user_id, $start, $end, $status, $filter);
+        return $this->model->getRecentActivity($user_id, $start, $end, $status, $filter,  $query);
     }
 
     public function getTotalLaporan($user_id)

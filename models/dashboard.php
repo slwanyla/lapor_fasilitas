@@ -12,10 +12,11 @@ class DashboardModel {
     {
         $sql = "SELECT
                     SUM(status = 'baru') AS baru,
-                    SUM(status = 'proses') AS proses,
+                    SUM(status = 'diproses') AS proses,
                     SUM(status = 'selesai') AS selesai
                 FROM laporan
-                WHERE id_user = ?";
+                WHERE id_user = ?
+                AND is_deleted = 0";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$user_id]); // PDO pakai array, bukan bind_param
@@ -23,7 +24,7 @@ class DashboardModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getRecentActivity($user_id, $start='', $end='', $status='', $filter='') {
+    public function getRecentActivity($user_id, $start='', $end='', $status='', $filter='', $query='') {
         $sql = "SELECT 
                     id AS id_laporan,
                     judul_laporan,
@@ -34,34 +35,43 @@ class DashboardModel {
                     tanggal_lapor,
                     tanggal_update
                 FROM laporan
-                WHERE id_user = :user_id";
-        
+                WHERE id_user = :user_id AND is_deleted = 0";
+
         $params = ['user_id' => $user_id];
 
-        // Jika ada tanggal mulai
         if($start){
             $sql .= " AND tanggal_lapor >= :start";
-            $params['start'] = $start . ' 00:00:00'; // mulai awal hari
+            $params['start'] = $start . ' 00:00:00';
         }
 
-        // Jika ada tanggal akhir
         if($end){
             $sql .= " AND tanggal_lapor <= :end";
-            $params['end'] = $end . ' 23:59:59'; // sampai akhir hari
+            $params['end'] = $end . ' 23:59:59';
         }
 
-        // Tentukan status dari filter atau search
         $finalStatus = $filter ?: $status;
 
-        // Hanya pakai status jika tidak kosong
         if($finalStatus){
-            // Pastikan status sama persis dengan enum di DB
             $allowedStatus = ['baru', 'diproses', 'selesai', 'tidak_valid'];
             if(in_array($finalStatus, $allowedStatus)){
                 $sql .= " AND status = :status";
                 $params['status'] = $finalStatus;
             }
         }
+
+        if (!empty($query)) {
+            $sql .= " AND (judul_laporan LIKE :q OR lokasi LIKE :q OR deskripsi LIKE :q)";
+            $params['q'] = "%$query%";
+        }
+
+        // ⬇⬇ TAMBAHKAN INI (inti logikanya)
+        $sql .= " AND (
+                    status != 'selesai'
+                    OR (
+                        status = 'selesai'
+                        AND DATE(tanggal_update) >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                    )
+                )";
 
         $sql .= " ORDER BY COALESCE(tanggal_update, tanggal_lapor) DESC";
 
@@ -70,6 +80,7 @@ class DashboardModel {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function getTotalLaporan()
     {
@@ -103,6 +114,7 @@ class DashboardModel {
 
             FROM laporan l
             LEFT JOIN user u ON l.id_user = u.id
+            WHERE l.is_deleted = 0
             ORDER BY l.tanggal_update DESC, l.tanggal_lapor DESC
         ";
 
@@ -113,13 +125,14 @@ class DashboardModel {
 
     public function getTotalLaporanAdmin() 
     {
-        $sql = "SELECT COUNT(*) AS total FROM laporan"; 
+        $sql = "SELECT COUNT(*) AS total FROM laporan WHERE is_deleted = 0"; 
         $stmt = $this->conn->prepare($sql); 
         $stmt->execute(); return 
         $stmt->fetch(PDO::FETCH_ASSOC)['total']; 
     }
 
-    public function getFilterAdmin($start='', $end='', $status='', $filter='') {
+    public function getFilterAdmin($start='', $end='', $status='', $filter='', $keyword='')
+    {
         $sql = "SELECT 
                     l.id AS id_laporan,
                     l.judul_laporan,
@@ -138,10 +151,11 @@ class DashboardModel {
                     u.prodi
                 FROM laporan l
                 LEFT JOIN user u ON l.id_user = u.id
-                WHERE 1";
-        
+                WHERE l.is_deleted = 0";
+
         $params = [];
 
+        // ========= FILTER TANGGAL =========
         if ($start) {
             $sql .= " AND l.tanggal_lapor >= :start";
             $params['start'] = $start . " 00:00:00";
@@ -152,14 +166,33 @@ class DashboardModel {
             $params['end'] = $end . " 23:59:59";
         }
 
+        // ========= SEARCH STATUS / FILTER =========
         $finalStatus = $filter ?: $status;
-
         if ($finalStatus) {
             $allowed = ['baru','diproses','selesai','tidak_valid'];
             if (in_array($finalStatus, $allowed)) {
                 $sql .= " AND l.status = :status";
                 $params['status'] = $finalStatus;
             }
+        }
+
+        // ========= 🔥 SEARCH MANUAL KEYWORD =========  
+        if ($keyword) {
+            $sql .= " AND (
+                    l.judul_laporan LIKE :kw OR
+                    l.lokasi LIKE :kw OR
+                    l.deskripsi LIKE :kw OR
+                    l.status LIKE :kw OR
+
+                    u.nama LIKE :kw OR
+                    u.role LIKE :kw OR
+                    u.nim LIKE :kw OR
+                    u.nidn LIKE :kw OR
+                    u.nip LIKE :kw OR
+                    u.prodi LIKE :kw
+            )";
+
+            $params["kw"] = "%$keyword%";
         }
 
         $sql .= " ORDER BY COALESCE(l.tanggal_update, l.tanggal_lapor) DESC";
@@ -170,8 +203,9 @@ class DashboardModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
      public function getCountByStatus($status) {
-        $sql = "SELECT COUNT(*) AS total FROM laporan WHERE status = :status";
+        $sql = "SELECT COUNT(*) AS total FROM laporan WHERE status = :status AND is_deleted = 0";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(":status", $status);
         $stmt->execute();
@@ -180,7 +214,7 @@ class DashboardModel {
 
     // total laporan (semua status)
     public function getTotalReports() {
-        $sql = "SELECT COUNT(*) AS total FROM laporan";
+        $sql = "SELECT COUNT(*) AS total FROM laporan WHERE is_deleted = 0";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];

@@ -1,14 +1,17 @@
 <?php
 require_once "../../koneksi.php";
 require_once "../../models/report.php";
+require_once "../nontifikasi/nontifikasi.php";
 
 class AdminReportController {
 
     private $model;
+    private $notif;
 
     public function __construct($db)
     {
         $this->model = new ReportModel($db);
+        $this->notif = new NotificationController($db);
     }
 
     public function updateStatus()
@@ -25,16 +28,29 @@ class AdminReportController {
         $updated = $this->model->updateStatus($id, $status);
 
         if ($updated) {
+
+            // Ambil id_user dari model (cara yang benar)
+            $id_user = $this->model->getUserIdByReport($id);
+
+            // Kirim notifikasi ke user
+            $this->notif->send(
+                $id_user,
+                "user",
+                "Status laporan Anda berubah menjadi: $status"
+            );
+
             header("Location: ../../admin/admin_dashboard.php?success=updated");
             exit;
+
         } else {
+
             header("Location: ../../admin/admin_dashboard.php?error=update_failed");
             exit;
+
         }
-
-
     }
 
+    
 }
 
 // === ROUTER ===

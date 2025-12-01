@@ -74,6 +74,12 @@ function showAlert() {
                 $title = 'Berhasil di ubah';
                 $message = 'Status berhasil di ubah';
                 break;
+
+            case 'deleted':
+                $type = 'success';
+                $title = 'Berhasil dihapus';
+                $message = 'laporan berhasil dihapus';
+                break;
         }
     }
 
@@ -113,12 +119,17 @@ function showAlert() {
                 $message = 'Format file harus JPG, JPEG, atau PNG.';
                 break;
             
-             case 'update_failed':
+            case 'update_failed':
                 $type = 'error';
                 $title = 'Status gagal';
                 $message = 'Status gagal di ubah';
                 break;
-
+            
+            case 'not_allowed':
+                $type = 'error';
+                $title = 'Gagal';
+                $message = 'Hanya bisa status baru';
+                break;
         }
     }
 ?>
@@ -168,6 +179,8 @@ function showAlert() {
             // auto-close
             setTimeout(() => alertBox.classList.remove("show"), 3000);
         }
+
+        
     </script>
 
 <?php } ?>

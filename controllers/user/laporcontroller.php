@@ -2,14 +2,17 @@
 
 require_once "../../koneksi.php";
 require_once "../../models/report.php";
+require_once "../nontifikasi/nontifikasi.php";
 
 class ReportController {
 
     private $model;
+    private $notif;
 
     public function __construct($db)
     {
-        $this->model = new ReportModel($db); 
+        $this->model  = new ReportModel($db);
+        $this->notif  = new NotificationController($db); 
     }
 
     public function create()
@@ -31,7 +34,7 @@ class ReportController {
 
         if (!empty($_FILES['foto']['name'])) {
 
-            $folder = "../../uploads/";  // perbaikan path
+            $folder = "../../uploads/";
             if (!is_dir($folder)) {
                 mkdir($folder, 0777, true);
             }
@@ -51,10 +54,20 @@ class ReportController {
             move_uploaded_file($tmpName, $folder . $fotoName);
         }
 
-        // ===== Insert via Model ===== //
+        // ===== Insert ke DB ===== //
         $insert = $this->model->createReport($id_user, $judul, $deskripsi, $lokasi, $fotoName);
 
         if ($insert) {
+
+            $nama_user = $_SESSION['user_name'];
+
+            $this->notif->send(
+                null,
+                "admin",
+                "Laporan baru dibuat oleh $nama_user"
+            );
+
+
             header("Location: ../../user/lapor.php?success=report_created");
         } else {
             header("Location: ../../user/lapor.php?error=insert_failed");
@@ -63,8 +76,10 @@ class ReportController {
         exit;
     }
 
-     public function update()
+    public function update()
     {
+        session_start(); 
+        
         $id     = $_POST['id'];
         $judul  = $_POST['judul_laporan'];
         $lokasi = $_POST['lokasi'];
@@ -72,7 +87,6 @@ class ReportController {
 
         $fotoBaru = null;
 
-        // Jika ada upload foto baru
         if (!empty($_FILES['foto']['name'])) {
 
             $ext = strtolower(pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION));
@@ -91,10 +105,18 @@ class ReportController {
             $fotoBaru = $fileName;
         }
 
-        // Update via model
         $this->model->updateLaporan($id, $judul, $lokasi, $desk, $fotoBaru);
 
-        // Redirect ke dashboard setelah berhasil update
+        // 🔔 Notifikasi untuk admin
+        $nama_user = $_SESSION['user_name'];
+
+        $this->notif->send(
+            null,
+            "admin",
+            "User $nama_user melakukan update pada laporan ID $id"
+        );
+
+
         header("Location: ../../user/user_dashboard.php?success=update_report");
         exit;
     }
