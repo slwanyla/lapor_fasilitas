@@ -22,58 +22,61 @@ $riwayat = $controller->getRiwayatSelesai($user_id);
 <?php include 'header.php'; ?>
 <?php include '../alert.php'; showAlert(); ?>
 
-<h2 class="riwayat-title">Riwayat Laporan</h2>
+<div class="content-riwayat">
 
-<div class="riwayat-container">
+    <h2 class="riwayat-title">Riwayat Laporan</h2>
 
-<?php if ($riwayat === null || empty($riwayat)): ?>
+    <div class="riwayat-container">
 
-    <div class="no-riwayat">Tidak ada riwayat selesai.</div>
+    <?php if ($riwayat === null || empty($riwayat)): ?>
 
-<?php else: ?>
+        <div class="no-riwayat">Tidak ada riwayat selesai.</div>
 
-    <?php foreach ($riwayat as $row): ?>
+    <?php else: ?>
 
-        <div class="riwayat-item">
+        <?php foreach ($riwayat as $row): ?>
 
-            <div class="riwayat-header" onclick="toggleDetail(<?= $row['id'] ?>)">
-                
-                <div class="left">
-                    <div class="title"><?= htmlspecialchars($row['judul_laporan']) ?></div>
-                    <div class="desc-small"><?= htmlspecialchars($row['deskripsi']) ?></div>
-                    <div class="date">
-                        <?= date("d M Y • H:i", strtotime($row['tanggal_lapor'])) ?>
-                        <?php if ($row['tanggal_update']): ?>
-                            <span style="color:#888;"> • Updated: <?= date("d M Y • H:i", strtotime($row['tanggal_update'])) ?></span>
+            <div class="riwayat-item">
+
+                <div class="riwayat-header" onclick="toggleDetail(<?= $row['id'] ?>)">
+                    
+                    <div class="left">
+                        <div class="title"><?= htmlspecialchars($row['judul_laporan']) ?></div>
+                        <div class="desc-small"><?= htmlspecialchars($row['deskripsi']) ?></div>
+                        <div class="date">
+                            <?= date("d M Y • H:i", strtotime($row['tanggal_lapor'])) ?>
+                            <?php if ($row['tanggal_update']): ?>
+                                <span style="color:#888;"> • Updated: <?= date("d M Y • H:i", strtotime($row['tanggal_update'])) ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="right">
+                        <span class="badge status-<?= $row['status'] ?>">
+                            <?= ucfirst($row['status']) ?>
+                        </span>
+                        <i class="fi fi-ss-angle-small-down expand-icon" id="icon-<?= $row['id'] ?>"></i>
+                    </div>
+                </div>
+
+                <div class="riwayat-detail" id="detail-<?= $row['id'] ?>">
+                    <div class="detail-box">
+                        <p><b>Lokasi:</b> <?= htmlspecialchars($row['lokasi']) ?></p>
+                        <p><?= htmlspecialchars($row['deskripsi']) ?></p>
+
+                        <?php if (!empty($row['foto'])): ?>
+                            <img src="../uploads/<?= $row['foto'] ?>" class="detail-img">
                         <?php endif; ?>
                     </div>
                 </div>
 
-                <div class="right">
-                    <span class="badge status-<?= $row['status'] ?>">
-                        <?= ucfirst($row['status']) ?>
-                    </span>
-                    <i class="fi fi-ss-angle-small-down expand-icon" id="icon-<?= $row['id'] ?>"></i>
-                </div>
             </div>
 
-            <div class="riwayat-detail" id="detail-<?= $row['id'] ?>">
-                <div class="detail-box">
-                    <p><b>Lokasi:</b> <?= htmlspecialchars($row['lokasi']) ?></p>
-                    <p><?= htmlspecialchars($row['deskripsi']) ?></p>
+        <?php endforeach; ?>
 
-                    <?php if (!empty($row['foto'])): ?>
-                        <img src="../uploads/<?= $row['foto'] ?>" class="detail-img">
-                    <?php endif; ?>
-                </div>
-            </div>
+    <?php endif; ?>
 
-        </div>
-
-    <?php endforeach; ?>
-
-<?php endif; ?>
-
+    </div>
 </div>
 
 <script>
@@ -89,4 +92,6 @@ function toggleDetail(id) {
         icon.classList.add("rotate");
     }
 }
+
+
 </script>

@@ -14,11 +14,9 @@
 }
 
 
-
-
 /* 🔵 BAGIAN ATAS */
 .sidebar-top {
-    background: #3335CA;      /* warna header */
+    background: #3335CA;      
     padding: 15px 20px;
     color: white;
     border-bottom-left-radius: 15px;
@@ -57,12 +55,12 @@
 .menu li a {
     display: flex;
     align-items: center;
-    gap: 12px;             /* 🔥 jarak icon & teks */
-    padding: 10px 12px;    /* area klik nyaman */
+    gap: 12px;             
+    padding: 10px 12px;    
     text-decoration: none;
     color: #333;
     font-size: 15px;
-    border-radius: 8px;    /* biar kayak gambar */
+    border-radius: 8px;    
     transition: .2s ease;
 }
 
@@ -90,6 +88,64 @@
     text-decoration: none;
 }
 
+.modal {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.3);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            width: 350px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-icon i {
+            font-size: 80px;
+            color: #d4d4d4;
+            margin-bottom: 10px;
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-ya {
+            background: #ff3b3b;
+        }
+
+        .btn-tidak {
+            background: #2f3dff;
+        }
+        
 /* ==== SIDEBAR TOGGLE ==== */
 
 .sidebar {
@@ -112,7 +168,7 @@
 }
 
 
-/* HEADER & CONTENT ikut geser */
+/* HEADER & CONTENT ngikut geser */
 .header,
 .content,
 .main-content {
@@ -123,30 +179,31 @@
 .header {
     position: fixed;
     top: 0;
-    left: 230px; /* mengikuti sidebar */
+    left: 230px; 
     width: calc(100% - 230px);
     height: 80px;
     background: #3335CA;
     color: white;
     display: flex;
     align-items: center;
-    justify-content: space-between;   /* 🟢 pisahkan kiri - tengah - kanan */
+    justify-content: space-between;
     padding: 0 25px;
     z-index: 999;
     transition: all .3s ease;
 }
 
+
 .left-area {
     display: flex;
     align-items: center;
-    gap: 15px; /* jarak tombol dan profil */
+    gap: 15px; 
 }
 
 .header-right {
     display: flex;
     align-items: center;
     gap: 15px;
-    margin-right: 30px;   /* 🔥 geser ke kiri */
+    margin-right: 30px;   
 }
 
 
@@ -174,7 +231,7 @@
 
 /* TITLE */
 .header-title {
-    flex: 1;                /* bikin dia otomatis di tengah */
+    flex: 1;               
     text-align: center;
     font-size: 22px;
     font-weight: 600;
@@ -269,7 +326,7 @@
 .notif-item {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* jarak ikon - teks - tanggal */
+    justify-content: space-between; 
     padding: 12px 15px;
     border-bottom: 1px solid #f1f1f1;
     gap: 12px;
@@ -281,7 +338,7 @@
 }
 
 .notif-text {
-    flex: 1; /* biar teks ambil area tengah */
+    flex: 1; 
 }
 
 .notif-text p {
@@ -752,27 +809,27 @@
 /* ============================= */
 .edit-modal {
     width: 720px;
+    max-width: 95%;       /* biar gak overflow */
     background: white;
     border-radius: 12px;
     position: fixed;
     top: 50%;
     left: 50%;
-    padding-bottom: 20px;
     transform: translate(-50%, -50%) scale(.7);
     opacity: 0;
     transition: .25s ease;
-    display: none;
+    display: none;        /* default: hidden */
     z-index: 1000;
+    padding-bottom: 20px;
     box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+    box-sizing: border-box;
 }
-
 /* HEADER */
 .edit-header {
     background: #3335CA;
     padding: 16px 20px;
     color: #fff;
     font-size: 18px;
-    font-weight: 500;
     border-radius: 12px 12px 0 0;
     display: flex;
     justify-content: space-between;
@@ -794,13 +851,16 @@
     display: flex;
     gap: 25px;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 /* LEFT SIDE: PREVIEW FOTO */
 .left-preview {
+    width: 180px;   /* FIX agar stabil */
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    gap: 12px;
 }
 
 .preview-box img {
@@ -827,23 +887,25 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
 /* INPUT & TEXTAREA */
-.input, 
-.textarea, 
+.input,
+.textarea,
 select.input {
+    width: 100%;
     border: 1px solid #ccc;
     padding: 8px;
-    border-radius: 6px;
     font-size: 14px;
-    width: 100%;
+    border-radius: 6px;
+    box-sizing: border-box;
 }
 
 /* TEXTAREA SIZE */
 .textarea {
     height: 120px;
+    resize: none;
 }
 
 /* READ-ONLY STYLE */
@@ -860,18 +922,17 @@ select.input {
 .btn-area {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 12px;
     margin-top: 12px;
 }
 
 .btn-save {
     background: #FFD31A;
-    color: white;
     padding: 8px 22px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    transition: 0.2s;
+    font-weight: 600;
 }
 
 .btn-save:hover {
@@ -885,7 +946,7 @@ select.input {
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    transition: 0.2s;
+    font-weight: 600;
 }
 
 .btn-cancel:hover {
@@ -963,6 +1024,30 @@ select.input {
 @keyframes zoomIn {
     from { transform: scale(.8); opacity: 0 }
     to   { transform: scale(1); opacity: 1 }
+}
+
+@media(max-width: 650px){
+    .edit-body {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left-preview {
+        width: 100%;
+    }
+
+    .preview-box {
+        width: 200px;
+        height: 200px;
+    }
+
+    .file-info {
+        width: 200px;
+    }
+
+    .right-form {
+        width: 100%;
+    }
 }
 
 .filter-wrapper {

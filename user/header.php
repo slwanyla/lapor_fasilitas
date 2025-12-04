@@ -13,7 +13,7 @@
 </head>
 
 <body>
-
+     
     <header class="header">
 
         <div class="left-area">
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <h2 class="header-title">Lapor Kampus</h2>
+       
 
         <div class="header-right">
            <div class="notif-wrapper">
@@ -147,9 +147,7 @@
 document.getElementById("manualSearch").addEventListener("keypress", function(e){
     if(e.key === "Enter") manualSearch();
 });
-function toggleSidebar() {
-    document.getElementById("sidebar").classList.toggle("closed");
-}
+
 
 const searchBox = document.getElementById("searchBox");
 const popup = document.getElementById("searchPopup");
@@ -225,5 +223,35 @@ function manualSearch() {
     window.location = "user_dashboard.php?query=" + encodeURIComponent(q);
 }
 
+function toggleSidebar() {
+    const sidebar = document.getElementById("sidebar");
+    const content = document.querySelector(".main-content");
+    const header = document.querySelector(".header");
+    const contentRiwayat = document.querySelector(".content-riwayat");
+    const contentLapor = document.querySelector(".content-lapor");
+
+    if (window.innerWidth > 768) {
+
+        sidebar.classList.toggle("closed");
+
+        // Jika sedang di dashboard
+        if (content) {
+            content.classList.toggle("full");
+            header.classList.toggle("full");
+        }
+
+        // Jika sedang di riwayat
+        if (contentRiwayat) {
+            contentRiwayat.classList.toggle("full");
+        }
+
+        if (contentLapor) {
+            contentLapor.classList.toggle("full");
+        }
+
+    } else {
+        sidebar.classList.toggle("active");
+    }
+}
 
 </script>

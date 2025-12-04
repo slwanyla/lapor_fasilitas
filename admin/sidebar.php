@@ -23,11 +23,28 @@
 
         </ul>
 
-        <div class="logout">
-            <a href="../auth/login.php" onclick="return confirm('Yakin mau logout?')">
+       <div class="logout">
+            <a href="#" onclick="openLogoutModal()">
                 <i class="fi fi-rr-exit"></i>
                 <span>Logout</span>
             </a>
+        </div>
+    </div>
+</div> <!-- PENUTUP SIDEBAR -->
+
+
+<!-- MODAL LOGOUT -->
+<div id="logoutModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-icon">
+            <i class="fi fi-rr-info"></i>
+        </div>
+
+        <p>Apakah anda yakin untuk Logout?</p>
+
+        <div class="modal-buttons">
+            <a href="../auth/logout.php" class="btn btn-ya">YA</a>
+            <button class="btn btn-tidak" onclick="closeLogoutModal()">TIDAK</button>
         </div>
     </div>
 </div>

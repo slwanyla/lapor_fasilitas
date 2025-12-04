@@ -76,7 +76,7 @@ $listNotif = $notifController->getNotifications($userId, 'user');
              <div class="filter-menu">
                 <a href="user_dashboard.php" class="<?= ($filterStatus=='all')?'active':'' ?>">All</a>
                 <hr>
-                <a href="user_dashboard.php?filter=baru" class="<?= ($filterStatus=='baru')?'active':'' ?>">New</a>
+                <a href="user_dashboard.php?filter=baru" class="<?= ($filterStatus=='baru')?'active':'' ?>">Baru</a>
                 <a href="user_dashboard.php?filter=diproses" class="<?= ($filterStatus=='diproses')?'active':'' ?>">Dalam Proses</a>
                 <a href="user_dashboard.php?filter=selesai" class="<?= ($filterStatus=='selesai')?'active':'' ?>">Selesai</a>
                 <a href="user_dashboard.php?filter=tidak_valid" class="<?= ($filterStatus=='tidak_valid')?'active':'' ?>">Tidak Valid</a>
@@ -343,4 +343,40 @@ document.getElementById("btnYes").addEventListener("click", () => {
     window.location.href = "../controllers/user/delete.php?id=" + deleteId;
 });
 
+
+document.addEventListener("click", function(e) {
+    const toggleBtn = document.querySelector(".toggle-btn");
+
+    if (
+        !searchBox.contains(e.target) &&
+        !popup.contains(e.target) &&
+        !toggleBtn.contains(e.target)
+    ) {
+        popup.style.display = "none";
+        closeSearch.style.display = "none";
+        searchBox.classList.remove("input-expanded");
+    }
+});
+
+
+
 </script>
+
+ <script>
+        function openLogoutModal() {
+            document.getElementById("logoutModal").style.display = "flex";
+        }
+
+        function closeLogoutModal() {
+            document.getElementById("logoutModal").style.display = "none";
+        }
+
+        // Klik di luar modal untuk menutup
+        window.onclick = function(event) {
+            const modal = document.getElementById("logoutModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+

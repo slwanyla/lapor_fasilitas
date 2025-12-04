@@ -113,7 +113,7 @@ class ReportController {
         $this->notif->send(
             null,
             "admin",
-            "User $nama_user melakukan update pada laporan ID $id"
+            "User $nama_user melakukan update pada laporan"
         );
 
 

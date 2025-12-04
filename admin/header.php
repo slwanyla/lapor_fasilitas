@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <h2 class="header-title">Lapor Kampus</h2>
+        <h2 class="header-title">LaporAja</h2>
 
         <div class="header-right">
             <div class="notif-wrapper">

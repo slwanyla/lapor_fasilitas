@@ -18,74 +18,75 @@ include '../alert.php';
 showAlert(); 
 ?>
 
-<div class="report-container">
-    <div class="white-box">
+<div class="content-lapor">
+    <div class="report-container">
+        <div class="white-box">
 
-        <h3>Create Report</h3>
+            <h3>Create Report</h3>
 
-        <!-- FORM START -->
-        <form action="../controllers/user/laporcontroller.php" method="POST" enctype="multipart/form-data">
+            <!-- FORM START -->
+            <form action="../controllers/user/laporcontroller.php" method="POST" enctype="multipart/form-data">
 
-            <input type="hidden" name="action" value="create_report">
+                <input type="hidden" name="action" value="create_report">
 
-            <!-- File input HARUS di dalam form -->
-            <input type="file" name="foto" id="fileInput" accept=".jpg, .jpeg, .png" hidden>
+                <!-- File input HARUS di dalam form -->
+                <input type="file" name="foto" id="fileInput" accept=".jpg, .jpeg, .png" hidden>
 
-            <!-- Upload Area -->
-            <div id="uploadArea" class="upload-area">
-                <div class="upload-icon"><i class="fi fi-rr-cloud-upload"></i></div>
-                <p>choose a media or drag & drop it here</p>
+                <!-- Upload Area -->
+                <div id="uploadArea" class="upload-area">
+                    <div class="upload-icon"><i class="fi fi-rr-cloud-upload"></i></div>
+                    <p>choose a media or drag & drop it here</p>
 
-                <button type="button" class="browse-btn"
-                    onclick="document.getElementById('fileInput').click()">
-                    browse file
-                </button>
-            </div>
-
-            <!-- Progress Area -->
-            <div id="progressArea" class="progress-area hidden">
-                <div class="progress-header">
-                    <span id="fileName">filename</span>
-                    <i class="fi fi-tr-cross-small close-progress" onclick="resetUpload()"></i>
+                    <button type="button" class="browse-btn"
+                        onclick="document.getElementById('fileInput').click()">
+                        browse file
+                    </button>
                 </div>
 
-                <div class="progress-bar">
-                    <div id="progressLine"></div>
+                <!-- Progress Area -->
+                <div id="progressArea" class="progress-area hidden">
+                    <div class="progress-header">
+                        <span id="fileName">filename</span>
+                        <i class="fi fi-tr-cross-small close-progress" onclick="resetUpload()"></i>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div id="progressLine"></div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Preview Area -->
-            <div id="previewArea" class="preview-area hidden">
-                <i class="fi fi-sr-circle-xmark close-preview" onclick="resetUpload()"></i>
+                <!-- Preview Area -->
+                <div id="previewArea" class="preview-area hidden">
+                    <i class="fi fi-sr-circle-xmark close-preview" onclick="resetUpload()"></i>
 
-                <img id="previewImg">
+                    <img id="previewImg">
 
-                <div class="preview-info">
-                    <span id="uploadedFileName"></span>
+                    <div class="preview-info">
+                        <span id="uploadedFileName"></span>
+                    </div>
                 </div>
-            </div>
 
-            <br>
+                <br>
 
-            <!-- Form Input -->
-            <div class="row">
-                <input type="text" name="judul_laporan" placeholder="Judul" required>
-                <input type="text" name="lokasi" placeholder="Lokasi" required>
-            </div>
+                <!-- Form Input -->
+                <div class="row">
+                    <input type="text" name="judul_laporan" placeholder="Judul" required>
+                    <input type="text" name="lokasi" placeholder="Lokasi" required>
+                </div>
 
-            <textarea name="deskripsi" placeholder="Deskripsi" required></textarea>
+                <textarea name="deskripsi" placeholder="Deskripsi" required></textarea>
 
-            <div class="btn-row">
-                <button type="submit" class="upload-btn">upload</button>
-                <button type="reset" class="cancel-btn">Cancel</button>
-            </div>
+                <div class="btn-row">
+                    <button type="submit" class="upload-btn">upload</button>
+                    <button type="reset" class="cancel-btn">Cancel</button>
+                </div>
 
-        </form>
-        <!-- FORM END -->
+            </form>
+            <!-- FORM END -->
 
+        </div>
     </div>
 </div>
-
 
 <!-- JAVASCRIPT -->
 <script>

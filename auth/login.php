@@ -78,7 +78,7 @@
     </div>
    
 
-    <button>signin</button>
+    <button>Sign in</button>
 
     <div class="login-link">
         Belum Punya Akun? <a href="register.php">Daftar Disini</a>

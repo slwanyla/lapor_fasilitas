@@ -122,7 +122,7 @@
     <button type="submit">Create</button>
 
     <div class="login-link">
-        Sudah Punya Akun? <a href="login.php">Signin Disini</a>
+        Sudah Punya Akun? <a href="login.php">Sign in Disini</a>
     </div>
 </div>
 </form>
