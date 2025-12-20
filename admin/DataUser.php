@@ -28,16 +28,122 @@ $dataUser = $controller->getPengguna($keyword);
 
 include "sidebar.php";
 include "header.php";
-include '../alert.php'; 
-showAlert(); 
 ?>
 
+<style>
+.mini-alert {
+    background: #ff4d4d;          /* merah */
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid #d80000;
+    animation: fadeIn 0.3s ease;
+    position: relative;
+    z-index: 10;
+}
 
+.close-mini {
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 12px;
+    opacity: 0.8;
+}
+
+.close-mini:hover {
+    opacity: 1;
+}
+
+/* animasi */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<?php include '../alert.php'; showAlert(); ?>
 <div class="main-content">
     <h2>Data Pengguna</h2>
 
     <div class="table-container">
         <h3>List Pengguna</h3>
+
+        <!-- Tombol Add User -->
+        <button id="addUserBtn" class="btn-yellow">Tambah User</button>
+
+        <div id="addUserPopup" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add User</h2>
+                    <span id="closeAddUser" class="close">&times;</span>
+                </div>
+
+                 
+
+                <form id="addUserForm" method="POST"  action="../controllers/admin/DataUserController.php">
+                    <input type="hidden" name="action" value="add_user">
+                    <div class="modal-body grid-form">
+
+                        <?php if (isset($_GET['error']) && $_GET['error']=='email_exists'): ?>
+                            <div class="mini-alert" id="miniAlert">
+                            Email sudah digunakan
+                                <span class="close-mini" onclick="closeMiniAlert()">✕</span>
+                            </div>
+                        <?php endif; ?>
+
+                        <label>Nama:</label>
+                        <input type="text" name="nama" required>
+
+                        <label>Email:</label>
+                        <input type="email" name="email" required>
+
+                        <label>Password:</label>
+                        <div class="password-wrapper">
+                            <input type="password" name="password" id="passwordInput" required>
+                            <i  id="togglePassword"></i>
+                        </div>
+
+
+                        <label>Role:</label>
+                        <select name="role" id="roleSelect" required>
+                            <option value="">-- Pilih Role --</option>
+                            <option value="mahasiswa">Mahasiswa</option>
+                            <option value="dosen">Dosen</option>
+                            <option value="staff">Pegawai</option>
+                            <option value="admin">Admin</option>
+                        </select>
+
+                        <!-- Kolom tambahan, default hidden -->
+                        <div class="conditional mahasiswa">
+                            <label>NIM:</label>
+                            <input type="text" name="nim">
+                            <label>Prodi:</label>
+                            <input type="text" name="prodi">
+                        </div>
+
+                        <div class="conditional dosen">
+                            <label>NIDN:</label>
+                            <input type="text" name="nidn">
+                        </div>
+
+                        <div class="conditional staff">
+                            <label>NIP:</label>
+                            <input type="text" name="nip">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn-yellow">Tambah</button>
+                        <button type="button" id="cancelAddUser" class="btn-red">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         <div class="table-wrapper">
             <table class="laporan-table">
@@ -134,4 +240,64 @@ searchBox.addEventListener("click", function(e) {
     searchBox.classList.add("input-expanded");
     e.stopPropagation();
 });
+
+const addUserBtn = document.getElementById("addUserBtn");
+const addUserPopup = document.getElementById("addUserPopup");
+const closeAddUser = document.getElementById("closeAddUser");
+const cancelAddUser = document.getElementById("cancelAddUser");
+const roleSelect = document.getElementById("roleSelect");
+
+// buka modal
+addUserBtn.addEventListener("click", () => addUserPopup.style.display = "block");
+
+// tutup modal
+closeAddUser.addEventListener("click", () => addUserPopup.style.display = "none");
+cancelAddUser.addEventListener("click", () => addUserPopup.style.display = "none");
+window.addEventListener("click", (e) => { if(e.target === addUserPopup) addUserPopup.style.display = "none"; });
+
+// tampilkan kolom sesuai role
+roleSelect.addEventListener("change", () => {
+    document.querySelectorAll(".conditional").forEach(div => div.style.display = "none");
+    const role = roleSelect.value;
+    if(role === "mahasiswa") {
+        document.querySelector(".mahasiswa").style.display = "grid";
+    } else if(role === "dosen") {
+        document.querySelector(".dosen").style.display = "block";
+    } else if(role === "pegawai") {
+        document.querySelector(".pegawai").style.display = "block";
+    }
+});
+
+const togglePassword = document.getElementById("togglePassword");
+const passwordInput = document.getElementById("passwordInput");
+
+togglePassword.addEventListener("click", () => {
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        togglePassword.classList.remove("fi-br-eye");
+        togglePassword.classList.add("fi-br-eye-crossed");
+    } else {
+        passwordInput.type = "password";
+        togglePassword.classList.remove("fi-br-eye-crossed");
+        togglePassword.classList.add("fi-br-eye");
+    }
+});
+
+function closeMiniAlert() {
+        let box = document.getElementById("miniAlert");
+        if (box) {
+            box.style.display = "none";
+        }
+    }
+
 </script>
+<?php if (isset($_GET['error']) && $_GET['error'] === 'email_exists'): ?>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("addUserPopup");
+    if (modal) {
+        modal.style.display = "block";
+    }
+});
+</script>
+<?php endif; ?>

@@ -6,7 +6,7 @@ require_once "../controllers/nontifikasi/nontifikasi.php";
 
 include 'sidebar.php';
 
-// 🔥 WAJIB sebelum header.php
+
 $notifController = new NotificationController($db);
 
 $userId = $_SESSION['user_id'];
@@ -183,4 +183,20 @@ function resetUpload() {
     progressLine.style.width = "0%";
     fileInput.value = "";
 }
+
+ function openLogoutModal() {
+            document.getElementById("logoutModal").style.display = "flex";
+        }
+
+        function closeLogoutModal() {
+            document.getElementById("logoutModal").style.display = "none";
+        }
+
+        // Klik di luar modal untuk menutup
+        window.onclick = function(event) {
+            const modal = document.getElementById("logoutModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
 </script>

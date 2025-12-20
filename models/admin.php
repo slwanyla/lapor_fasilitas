@@ -10,8 +10,8 @@ class AdminModel {
 
     // Ambil semua data user
     public function getAllUsers() {
-        // ambil semua user KECUALI role admin, urutkan terbaru dulu
-        $sql = "SELECT * FROM user WHERE role != 'admin' ORDER BY id DESC";
+        // ambil semua user KECUALI role admin, mengurutkan terbaru dulu
+        $sql = "SELECT * FROM user ORDER BY id DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -40,5 +40,45 @@ class AdminModel {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function addUser(
+        $nama,
+        $email,
+        $password,
+        $role,
+        $nim = null,
+        $nidn = null,
+        $nip = null,
+        $prodi = null
+    ) {
+        $sql = "INSERT INTO user 
+                (nama, email, password, role, nim, nidn, nip, prodi)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $this->db->prepare($sql);
+
+        return $stmt->execute([
+            $nama,
+            $email,
+            $password,
+            $role,
+            $nim,
+            $nidn,
+            $nip,
+            $prodi
+        ]);
+    }
+
+    public function emailExists($email)
+    {
+        $sql = "SELECT id FROM user WHERE email = :email LIMIT 1";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':email' => $email
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
 
 }

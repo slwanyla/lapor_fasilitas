@@ -93,5 +93,20 @@ function toggleDetail(id) {
     }
 }
 
+ function openLogoutModal() {
+            document.getElementById("logoutModal").style.display = "flex";
+        }
+
+        function closeLogoutModal() {
+            document.getElementById("logoutModal").style.display = "none";
+        }
+
+        // Klik di luar modal untuk menutup
+        window.onclick = function(event) {
+            const modal = document.getElementById("logoutModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
 
 </script>

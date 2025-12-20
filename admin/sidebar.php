@@ -34,7 +34,7 @@
 
 
 <!-- MODAL LOGOUT -->
-<div id="logoutModal" class="modal">
+<div id="logoutModal" class="modal-logout">
     <div class="modal-content">
         <div class="modal-icon">
             <i class="fi fi-rr-info"></i>

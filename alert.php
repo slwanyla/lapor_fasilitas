@@ -80,6 +80,12 @@ function showAlert() {
                 $title = 'Berhasil dihapus';
                 $message = 'laporan berhasil dihapus';
                 break;
+            
+            case 'added':
+                $type = 'success';
+                $title = 'Berhasil';
+                $message = 'User berhasil ditambah';
+                break;
         }
     }
 
@@ -91,6 +97,10 @@ function showAlert() {
         }
 
          if ($_GET['error'] == 'pw_not_match') {
+            return; 
+        }
+
+         if ($_GET['error'] == 'email_exists') {
             return; 
         }
 
@@ -129,6 +139,18 @@ function showAlert() {
                 $type = 'error';
                 $title = 'Gagal';
                 $message = 'Hanya bisa status baru';
+                break;
+
+            case 'add_failed':
+                $type = 'error';
+                $title = 'Gagal';
+                $message = 'Gagal menambah user';
+                break;
+            
+            case 'field_empty':
+                $type = 'error';
+                $title = 'Gagal';
+                $message = 'Semua data laporan wajib diisi';
                 break;
         }
     }

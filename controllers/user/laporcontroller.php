@@ -29,6 +29,17 @@ class ReportController {
         $lokasi    = $_POST['lokasi'];
         $deskripsi = $_POST['deskripsi'];
 
+        // ===== VALIDASI INPUT ===== //
+        if (
+            empty($judul) ||
+            empty($lokasi) ||
+            empty($deskripsi) ||
+            empty($_FILES['foto']['name'])
+        ) {
+            header("Location: ../../user/lapor.php?error=field_empty");
+            exit;
+        }
+
         // ===== Upload File ===== //
         $fotoName = null;
 

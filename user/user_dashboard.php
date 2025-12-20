@@ -246,7 +246,7 @@ function manualSearch() {
     let end = document.getElementById("dateEnd")?.value;
     let status = document.getElementById("statusSelect")?.value;
 
-    // jika input kosong → kembali ke asli
+    // jika input kosong akan kembali ke asli
     if (!q && !start && !end && !status) {
         window.location = "user_dashboard.php";
         return;
@@ -263,15 +263,15 @@ function manualSearch() {
     window.location = url;
 }
 
-// === ENTER KEY: jangan tutup popup, jangan hilang X ===
+// === ENTER KEY: tutup popup, jangan hilang X ===
 document.getElementById("manualSearch").addEventListener("keypress", function(e){
     if (e.key === "Enter") {
-        e.preventDefault();  // stop submit form atau reload
-        manualSearch();      // tetap lakukan search
+        e.preventDefault();  
+        manualSearch();     
     }
 });
 
-// === X: kembalikan halaman seperti semula ===
+// === kembalikan halaman seperti semula ===
 closeSearch.addEventListener("click", function(e) {
     e.stopPropagation();
     window.location = "user_dashboard.php";  // reset semua filter
@@ -285,7 +285,7 @@ searchBox.addEventListener("click", function(e) {
     e.stopPropagation();
 });
 
-// klik di luar → tutup popup tapi jangan reload
+
 document.addEventListener("click", function(e) {
     if (!searchBox.contains(e.target) && !popup.contains(e.target)) {
         popup.style.display = "none";
